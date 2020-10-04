@@ -7,7 +7,12 @@ const DEFAULT_EXPIRY = 60*60*1000;
 const MAX_EXPIRY = 30*24*60*60*1000;
 const decr = admin.firestore.FieldValue.increment(-1);
 
-// Store a new secret
+/**
+* Stores a new secret along with expiry and accesses left
+*
+* params:
+*	- secret
+*/
 exports.create = functions.https.onRequest(async (req, res) => {
   const secret = req.query.secret;
   const limit = Number(req.query.limit) || DEFAULT_LIMIT;
@@ -21,7 +26,13 @@ exports.create = functions.https.onRequest(async (req, res) => {
   res.json({id: `${writeResult.id}`});
 });
 
-// Fetch a secret
+/**
+* Fetches a secret by id. Returns "invalid id" if secret doesn't exist or expired or access limit reached.
+* Side effect: decrements accessesLeft.
+*
+* params:
+*	- id
+*/
 exports.fetch = functions.https.onRequest(async (req, res) => {
   const id = req.query.id;
   const secret = await admin.firestore().collection('messages').doc(id).get();
@@ -38,7 +49,12 @@ exports.fetch = functions.https.onRequest(async (req, res) => {
   res.json({secret: secret.data().secret});
 });
 
-// Delete a secret
+/**
+* Deletes a secret by id.
+*
+* params:
+*	- id
+*/
 exports.delete = functions.https.onRequest(async (req, res) => {
   const id = req.query.id;
   const result = admin.firestore().collection('messages').doc(id).delete();
