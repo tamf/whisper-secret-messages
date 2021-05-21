@@ -18,6 +18,14 @@
       {
         "source": "/create",
         "function": "create"
+      },
+      {
+        "source": "/fetch",
+        "function": "fetch"
+      },
+      {
+        "source": "/delete",
+        "function": "delete"
       }
     ]
   }

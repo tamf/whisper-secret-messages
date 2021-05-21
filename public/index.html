@@ -19,7 +19,7 @@
  <h1>Secret Messages</h1>
       <h2><a href="FAQ page">FAQ</a></h2>
      
-      <form action="https://us-central1-secret-messages-7749d.cloudfunctions.net/create" method="GET">
+      <form id="create-form">
         <div class="textbox">
           <h3>Share a secret</h3>
           <textarea 
@@ -34,10 +34,10 @@
         <label>
           Passphrase
           <input
-            class="password"
-            type="password"
-            id="password"
-            name="password"
+            class="passphrase"
+            type="passphrase"
+            id="passphrase"
+            name="passphrase"
           />
         </label>
 
@@ -55,15 +55,18 @@
         <label>
           Time Expiry
             <input
-             class="timeExpiry" 
+             class="expiry"
+             id="expiry"
+             name="expiry"
              min="0" 
              type="number" />
         </label>
         
-        <select class="timeLength">
-              <option value="minutes">Days</option>
-              <option value="hours">Months</option>
-              <option value="days">Years</option>
+
+        <select class="expiryUnit" name="expiryUnit">
+              <option value="minutes">Minutes</option>
+              <option value="hours">Hours</option>
+              <option value="days">Days</option>
         </select>
         <br>
         </br>
