@@ -3,8 +3,8 @@ const admin = require('firebase-admin');
 admin.initializeApp();
 
 const DEFAULT_LIMIT = 5
-const DEFAULT_EXPIRY = 60*60*1000;
-const MAX_EXPIRY = 30*24*60*60*1000;
+const DEFAULT_EXPIRY = 60*60;
+const MAX_EXPIRY = 30*24*60*60;
 const DECREMENT = admin.firestore.FieldValue.increment(-1);
 
 /**
@@ -14,9 +14,13 @@ const DECREMENT = admin.firestore.FieldValue.increment(-1);
 *	- secret
 */
 exports.create = functions.https.onRequest(async (req, res) => {
-	const secret = req.query.secret;
-	const limit = Number(req.query.limit) || DEFAULT_LIMIT;
-	const expiry = Number(req.query.expiry) || DEFAULT_EXPIRY; // in ms
+	if (req.method !== "POST") {
+		return res.sendStatus(405);
+	}
+
+	const secret = req.body.secret;
+	const limit = Number(req.body.limit) || DEFAULT_LIMIT;
+	const expiry = Number(req.body.expiry) || DEFAULT_EXPIRY; // in seconds
 	
 	if (typeof secret !== "string" || 
 			limit <= 0 || 
@@ -25,7 +29,7 @@ exports.create = functions.https.onRequest(async (req, res) => {
 		return res.sendStatus(400);
 	}
 
-	const expiryTime = Date.now() + expiry;
+	const expiryTime = Date.now() / 1000 + expiry;
 	const writeResult = await admin.firestore()
   									.collection('messages')
   									.add({	
@@ -36,6 +40,13 @@ exports.create = functions.https.onRequest(async (req, res) => {
   
   	res.json({id: `${writeResult.id}`});
 });
+
+
+// exports.create2 = functions.https.onRequest(async (req, res) => {
+	
+  
+//   	res.json({id: `${writeResult.id}`});
+// });
 
 /**
 * Fetches a secret by id. Returns 404 if secret doesn't exist or expired or access limit reached.
@@ -58,7 +69,7 @@ exports.fetch = functions.https.onRequest(async (req, res) => {
 	}
 
 	const data = secret.data();
-	const isExpired = Date.now() > data.expiryTime;
+	const isExpired = (Date.now() / 1000) > data.expiryTime;
 
 	if (data.accessesLeft <= 0 || isExpired) {
 		return res.sendStatus(404);
