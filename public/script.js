@@ -3,7 +3,7 @@ var formdata = new FormData();
 // const baseUrl = "https://us-central1-secret-messages-7749d.cloudfunctions.net/"; //create?secret=hi&limit=1"
 
 
-
+const DEFAULT_EXPIRY = 60*60; // one hour
 
 const createForm = document.getElementById("create-form");
 createForm.addEventListener("submit", handleFormSubmit);
@@ -79,7 +79,20 @@ function encrypt(secret, passphrase) {
 }
 
 function getExpiry(expiry, expiryUnit) {
-	return 1000*1000;
+	if (!expiry) {
+		return DEFAULT_EXPIRY;
+	}
+
+	switch(expiryUnit) {
+	  case "minutes":
+	    return expiry * 60;
+	  case "hours":
+	    return expiry * 60 * 60;
+	  case "days":
+	    return 24 * 60 *60;
+	  default:
+	    return DEFAULT_EXPIRY;
+	}
 }
 
 // function buildUrl(keyValues, action) {
