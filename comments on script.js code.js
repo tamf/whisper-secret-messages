@@ -4,30 +4,26 @@ var formdata = new FormData();
 
 
 
-
+// create reference to HTML form
 const createForm = document.getElementById("create-form");
+
+// add event listener to submit button
 createForm.addEventListener("submit", handleFormSubmit);
 
 function handleFormSubmit(event) {
 	event.preventDefault();
+    // retrieve form data
 	const form = event.currentTarget;
 	const formData = Object.fromEntries(new FormData(form).entries());
 
-
+	// call create secret method
 	createSecret(
-		formData.secret, 
-		formData.limit, 
+		formData.secret, // element in form with id secret
+		formData.limit,  // element in form with id limit
 		formData.expiry, 
 		formData.expiryUnit, 
 		formData.passphrase
 	);
-}
-
-function clearDataOnClick() {
-	document.getElementById("secret").value="";
-	document.getElementById("passphrase").value="";
-	document.getElementById("limit").value=null;
-	document.getElementById("expiry").value=null;
 }
 
 
@@ -35,12 +31,14 @@ function createSecret(secret, accessesLimit, expiry, expiryUnit, passphrase) {
 	const encrypted = encrypt(secret, passphrase);
 	const timeOfExpiry = getExpiry(expiry, expiryUnit);
 
+	// create body for HTTP request
 	const body = {
 		"secret": encrypted,
 		"limit": accessesLimit,
 		"expiry": timeOfExpiry
 	};
 
+	// HTTP request skeleton
 	const options = {
 		method: 'POST',
 		redirect: 'follow',
@@ -51,6 +49,9 @@ function createSecret(secret, accessesLimit, expiry, expiryUnit, passphrase) {
 		body: JSON.stringify(body)
 	};
 
+	// HTTP request 
+	// "/create" - path (is this a server route?)
+	//  options - infomration for the server
 	fetch("/create", options)
 	  .then(function(response) {
 	  	return response.text();
