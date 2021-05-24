@@ -17,7 +17,7 @@
   
 </head>
 <body>
- <h1>Secret Messages</h1>
+ <h1 class="display-3">Secret Messages</h1>
       <h2><a href="FAQ page">FAQ</a></h2>
      
       <form id="create-form">
@@ -33,7 +33,8 @@
             <!-- <textarea 
             placeholder="Enter your secret here..."
             class="form-control" 
-            id="secret" 
+            id="exampleFormControlTextarea1"
+            rows="3"
             ></textarea> -->
         </div>
 
@@ -48,9 +49,9 @@
         </label>
 
         <label>
-          Access Limit
           <input
-            class="accessLimit"
+            class="form-control"
+            placeholder="Access Limit"
             min="0"
             type="number"
             id="limit"
@@ -59,17 +60,17 @@
         </label>
 
         <label>
-          Time Expiry
             <input
-             class="expiry"
+             class="form-control"
+             placeholder="Time Expiry"
              id="expiry"
              name="expiry"
              min="0" 
-             type="number" />
+             type="number"/>
         </label>
         
 
-        <select class="expiryUnit" name="expiryUnit">
+        <select class="form-select" size="3" aria-label="size 3 select example" name="expiryUnit">
               <option value="minutes">Minutes</option>
               <option value="hours">Hours</option>
               <option value="days">Days</option>
