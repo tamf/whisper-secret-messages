@@ -13,7 +13,6 @@ function handleFormSubmit(event) {
 	const form = event.currentTarget;
 	const formData = Object.fromEntries(new FormData(form).entries());
 
-
 	createSecret(
 		formData.secret, 
 		formData.limit, 
@@ -21,13 +20,6 @@ function handleFormSubmit(event) {
 		formData.expiryUnit, 
 		formData.passphrase
 	);
-}
-
-function clearDataOnClick() {
-	document.getElementById("secret").value="";
-	document.getElementById("passphrase").value="";
-	document.getElementById("limit").value=null;
-	document.getElementById("expiry").value=null;
 }
 
 
