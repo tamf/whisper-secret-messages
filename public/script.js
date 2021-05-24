@@ -13,6 +13,8 @@ function handleFormSubmit(event) {
 	const form = event.currentTarget;
 	const formData = Object.fromEntries(new FormData(form).entries());
 
+	clearDataOnClick();
+
 
 	createSecret(
 		formData.secret, 
