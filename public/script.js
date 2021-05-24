@@ -19,7 +19,7 @@ function handleFormSubmit(event) {
 	createSecret(
 		formData.secret, 
 		formData.limit, 
-		formData.expiry, 
+		formData.expiresIn, 
 		formData.expiryUnit, 
 		formData.passphrase
 	);
@@ -33,14 +33,14 @@ function clearDataOnClick() {
 }
 
 
-function createSecret(secret, accessesLimit, expiry, expiryUnit, passphrase) {
+function createSecret(secret, accessesLimit, expiresIn, expiryUnit, passphrase) {
 	const encrypted = encrypt(secret, passphrase);
-	const timeOfExpiry = getExpiry(expiry, expiryUnit);
+	const expiresInSeconds = getExpiryInSeconds(expiresIn, expiryUnit);
 
 	const body = {
 		"secret": encrypted,
 		"limit": accessesLimit,
-		"expiry": timeOfExpiry
+		"expiresIn": expiresInSeconds
 	};
 
 	const options = {
@@ -78,7 +78,7 @@ function encrypt(secret, passphrase) {
 	return secret;
 }
 
-function getExpiry(expiry, expiryUnit) {
+function getExpiryInSeconds(expiry, expiryUnit) {
 	if (!expiry) {
 		return DEFAULT_EXPIRY;
 	}
@@ -94,18 +94,3 @@ function getExpiry(expiry, expiryUnit) {
 	    return DEFAULT_EXPIRY;
 	}
 }
-
-// function buildUrl(keyValues, action) {
-// 	let url = `${baseUrl}/${action}?`;
-
-// 	if (keyValues.size == 0) {
-// 		return url;
-// 	}
-
-// 	for (let [key, val] of keyValues) {
-// 		url = `${url}${key}=${value}&`
-// 	}
-
-// 	url = url.slice(0, -1); // remove trailing &
-// 	return url;
-// }
