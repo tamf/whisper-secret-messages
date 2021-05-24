@@ -11,22 +11,28 @@
       "**/node_modules/**"
     ],
     "rewrites": [
-      {
-        "source": "/",
-        "destination": "/index.html"
-      },
-      {
+    {
         "source": "/create",
         "function": "create"
-      },
-      {
-        "source": "/fetch",
-        "function": "fetch"
-      },
-      {
-        "source": "/delete",
-        "function": "delete"
       }
     ]
+  },
+  "emulators": {
+    "functions": {
+      "port": 5001
+    },
+    "hosting": {
+      "port": 5000
+    },
+    "ui": {
+      "enabled": true
+    },
+    "firestore": {
+      "port": 8005
+    }
+  },
+  "firestore": {
+    "rules": "firestore.rules",
+    "indexes": "firestore.indexes.json"
   }
 }
