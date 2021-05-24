@@ -2,6 +2,7 @@
 <html>
 <head>
 	<title>My Secret Message</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 	<link rel="stylesheet" type="text/css" href="secret.css" media="screen"/>
 
   <!--script defer src="https://www.gstatic.com/firebasejs/8.6.1/firebase.js"></script-->
@@ -16,12 +17,13 @@
   
 </head>
 <body>
- <h1>Secret Messages</h1>
-      <h2><a href="FAQ page">FAQ</a></h2>
+ <h1 class="display-3">Secret Messages</h1>
+      <!-- <h3><a href="FAQ page">FAQ</a></h2> -->
      
+      <div class="d-flex h-100">
+        <div class="m-auto">
       <form id="create-form">
         <div class="textbox">
-          <h3>Share a secret</h3>
           <textarea 
             placeholder="Enter your secret here..."
             class="secret"
@@ -32,9 +34,9 @@
         </div>
 
         <label>
-          Passphrase
           <input
-            class="passphrase"
+            class="form-control"
+            placeholder="Passphrase"
             type="passphrase"
             id="passphrase"
             name="passphrase"
@@ -42,9 +44,9 @@
         </label>
 
         <label>
-          Access Limit
           <input
-            class="accessLimit"
+            class="form-control"
+            placeholder="Access Limit"
             min="0"
             type="number"
             id="limit"
@@ -53,25 +55,27 @@
         </label>
 
         <label>
-          Time Expiry
             <input
-             class="expiry"
+             class="form-control"
+             placeholder="Time Expiry"
              id="expiry"
              name="expiry"
              min="0" 
-             type="number" />
+             type="number"/>
         </label>
         
 
-        <select class="expiryUnit" name="expiryUnit">
+        <select class="form-select" size="3" aria-label="size 3 select example" name="expiryUnit">
               <option value="minutes">Minutes</option>
               <option value="hours">Hours</option>
               <option value="days">Days</option>
         </select>
         <br>
         </br>
-
-        <button class="button">Send</button>
+        <button class="btn btn-outline-info">Send</button>
       </form>
+    </div>
 </body>
 </html>
+
+
