@@ -12,6 +12,8 @@ const DECREMENT = admin.firestore.FieldValue.increment(-1);
 *
 * params:
 *	- secret
+*   - limit: max number of accesses
+*   - expiresIn: number of seconds after current time at which secret will expire
 */
 exports.create = functions.https.onRequest(async (req, res) => {
 	if (req.method !== "POST") {
@@ -20,17 +22,17 @@ exports.create = functions.https.onRequest(async (req, res) => {
 
 	const secret = req.body.secret;
 	const limit = Number(req.body.limit) || DEFAULT_LIMIT;
-	const expiry = Number(req.body.expiry) || DEFAULT_EXPIRY; // in seconds
+	const expiresIn = Number(req.body.expiresIn) || DEFAULT_EXPIRY; // in seconds
 	
 	if (typeof secret !== "string" || 
 			limit <= 0 || 
-			expiry <= 0 || 
-			expiry > MAX_EXPIRY) {
+			expiresIn <= 0 || 
+			expiresIn > MAX_EXPIRY) {
 		return res.sendStatus(400);
 	}
 
-	// wstores the secret message into firebase database
-	const expiryTime = Date.now() / 1000 + expiry;
+	const expiryTime = Date.now() / 1000 + expiresIn;
+	// stores the secret into Firestore
 	const writeResult = await admin.firestore()
   									.collection('messages')
   									.add({	
@@ -41,13 +43,6 @@ exports.create = functions.https.onRequest(async (req, res) => {
   
   	res.json({id: `${writeResult.id}`});
 });
-
-
-// exports.create2 = functions.https.onRequest(async (req, res) => {
-	
-  
-//   	res.json({id: `${writeResult.id}`});
-// });
 
 /**
 * Fetches a secret by id. Returns 404 if secret doesn't exist or expired or access limit reached.
