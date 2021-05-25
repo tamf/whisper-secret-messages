@@ -29,7 +29,7 @@ function clearDataOnClick() {
 	document.getElementById("secret").value="";
 	document.getElementById("passphrase").value="";
 	document.getElementById("limit").value=null;
-	document.getElementById("expiry").value=null;
+	document.getElementById("expiresIn").value=null;
 }
 
 
