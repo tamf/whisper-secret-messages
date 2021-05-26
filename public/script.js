@@ -25,8 +25,6 @@ function handleFormSubmit(event) {
 		formData.expiryUnit, 
 		formData.passphrase
 	);
-
-	// displayShareableLink();
 }
 
 function clearDataOnClick() {
@@ -35,7 +33,6 @@ function clearDataOnClick() {
 	document.getElementById("limit").value=null;
 	document.getElementById("expiresIn").value=null;
 }
-
 
 function createSecret(secret, accessesLimit, expiresIn, expiryUnit, passphrase) {
 	const encrypted = encrypt(secret, passphrase);
@@ -62,7 +59,7 @@ function createSecret(secret, accessesLimit, expiresIn, expiryUnit, passphrase) 
 	  	return response.text(); 
 	  })
 	  .then(function(result) {
-	  	console.log(result); // {"id":"cdXOB1TPm5M4GLNwkEbq"}
+	  	console.log(result); // ex: {"id":"cdXOB1TPm5M4GLNwkEbq"}
 		createShareableLink(result);
 	  }) 
 	  .catch(function(error) {
