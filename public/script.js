@@ -53,12 +53,11 @@ function createSecret(secret, accessesLimit, expiresIn, expiryUnit, passphrase) 
 		body: JSON.stringify(body)
 	};
 
-	fetch("/create", options)
-	  .then(function(response) {
-	  	return response.text();
-	  })
+	return fetch("/create", options)
+	  .then(response => response.text())
 	  .then(function(result) {
 	  	console.log(result);
+	  	return result;
 	  }) 
 	  .catch(function(error) {
 	  	console.log('error', error);
@@ -70,7 +69,12 @@ function deleteSecret(id) {
 }
 
 function fetchSecret(id) {
-	// TODO
+	return fetch("/fetch?id=" + id)
+		.then(response => response.json())
+		.then(function(data) {
+			console.log(data);
+			return data;
+		});
 }
 
 function encrypt(secret, passphrase) {
