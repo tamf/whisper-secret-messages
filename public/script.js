@@ -15,7 +15,6 @@ function handleFormSubmit(event) {
 
 	clearDataOnClick();
 
-
 	createSecret(
 		formData.secret, 
 		formData.limit, 
@@ -29,7 +28,7 @@ function clearDataOnClick() {
 	document.getElementById("secret").value="";
 	document.getElementById("passphrase").value="";
 	document.getElementById("limit").value=null;
-	document.getElementById("expiry").value=null;
+	document.getElementById("expiresIn").value=null;
 }
 
 
@@ -55,14 +54,22 @@ function createSecret(secret, accessesLimit, expiresIn, expiryUnit, passphrase) 
 
 	fetch("/create", options)
 	  .then(function(response) {
-	  	return response.text();
+	  	return response.text(); 
 	  })
 	  .then(function(result) {
-	  	console.log(result);
+	  	console.log(result); // {"id":"cdXOB1TPm5M4GLNwkEbq"}
+		createShareableLink(result);
 	  }) 
 	  .catch(function(error) {
 	  	console.log('error', error);
 	  });
+}
+
+function createShareableLink(json) {
+	let obj = JSON.parse(json);
+	let id = obj.id;
+	console.log(id);
+
 }
 
 function deleteSecret(id) {
