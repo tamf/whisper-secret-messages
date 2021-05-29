@@ -93,7 +93,7 @@ function getExpiryInSeconds(expiry, expiryUnit) {
 	  case "hours":
 	    return expiry * 60 * 60;
 	  case "days":
-	    return 24 * 60 *60;
+	    return expiry * 24 * 60 * 60;
 	  default:
 	    return DEFAULT_EXPIRY;
 	}
