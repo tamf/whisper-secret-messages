@@ -58,7 +58,10 @@ function createSecret(secret, accessesLimit, expiresIn, expiryUnit, passphrase) 
 	  .then(response => response.text())
 	  .then(function(result) {
 	  	console.log(result);
+<<<<<<< HEAD
 		createShareableLink(result);
+=======
+>>>>>>> master
 	  	return result;
 	  }) 
 	  .catch(function(error) {
@@ -84,7 +87,12 @@ function deleteSecret(id) {
 }
 
 function fetchSecret(id) {
-	// TODO
+	return fetch("/fetch?id=" + id)
+		.then(response => response.json())
+		.then(function(data) {
+			console.log(data);
+			return data;
+		});
 }
 
 function encrypt(secret, passphrase) {
