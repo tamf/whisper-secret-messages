@@ -58,10 +58,7 @@ function createSecret(secret, accessesLimit, expiresIn, expiryUnit, passphrase) 
 	  .then(response => response.text())
 	  .then(function(result) {
 	  	console.log(result);
-<<<<<<< HEAD
 		createShareableLink(result);
-=======
->>>>>>> master
 	  	return result;
 	  }) 
 	  .catch(function(error) {
@@ -74,11 +71,11 @@ function createSecret(secret, accessesLimit, expiresIn, expiryUnit, passphrase) 
 function createShareableLink(json) {
 	let obj = JSON.parse(json);
 	let id = obj.id;
-	let url = buildURL(id);
+	let url = buildFetchUrl(id);
 	displayShareableLink(url);
 }
 
-function buildURL(id) {
+function buildFetchUrl(id) {
 	return "/fetch?id=" + id;
 }
 
