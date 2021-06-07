@@ -54,18 +54,31 @@ function createSecret(secret, accessesLimit, expiresIn, expiryUnit, passphrase) 
 		body: JSON.stringify(body)
 	};
 
-	fetch("/create", options)
-	  .then(function(response) {
-	  	return response.text(); 
-	  })
+	// fetch("/create", options)
+	//   .then(function(response) {
+	//   	return response.text(); 
+	//   })
+	//   .then(function(result) {
+	//   	console.log(result); // ex: {"id":"cdXOB1TPm5M4GLNwkEbq"}
+	// 	createShareableLink(result);
+	//   }) 
+	//   .catch(function(error) {
+	//   	console.log('error', error);
+	//   });
+
+	return fetch("/create", options)
+	  .then(response => response.text())
 	  .then(function(result) {
-	  	console.log(result); // ex: {"id":"cdXOB1TPm5M4GLNwkEbq"}
+	  	console.log(result);
 		createShareableLink(result);
+	  	return result;
 	  }) 
 	  .catch(function(error) {
 	  	console.log('error', error);
 	  });
 }
+
+
 
 function createShareableLink(json) {
 	let obj = JSON.parse(json);
