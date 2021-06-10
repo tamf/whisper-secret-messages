@@ -28,17 +28,22 @@ function handleFormSubmit(event) {
 
 function handleRetrieveSubmit(event) {
   event.preventDefault();
+  const form = event.currentTarget;
+  const formData = Object.fromEntries(new FormData(form).entries());
 
   clearDataOnClick();
+
+  retrieveSecretMessage(
+	formData.passphrase, 
+	formData.secretid
+  );
 }
 
-function clearDataOnClick() {
-  document.getElementById("secret").value = "";
-  document.getElementById("passphrase").value = "";
-  document.getElementById("secretid").value = "";
-  document.getElementById("limit").value = null;
-  document.getElementById("expiresIn").value = null;
-}
+function retrieveSecretMessage(
+
+
+
+)
 
 function createSecret(
   secret,
@@ -110,4 +115,12 @@ function getExpiryInSeconds(expiry, expiryUnit) {
     default:
       return DEFAULT_EXPIRY;
   }
+}
+
+function clearDataOnClick() {
+  document.getElementById("secret").value = "";
+  document.getElementById("passphrase").value = "";
+  document.getElementById("secretid").value = "";
+  document.getElementById("limit").value = null;
+  document.getElementById("expiresIn").value = null;
 }
