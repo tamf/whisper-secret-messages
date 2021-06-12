@@ -33,11 +33,11 @@ function handleRetrieveSubmit(event) {
 
   clearDataOnClick();
 
-  fetchSecret(
-	// formData.passphrase, 
-	formData.secretid // what do we do with this data
-  );
-}
+  let secretMessage = fetchSecret(
+    // formData.passphrase,
+    formData.secretid);
+  console.log(secretMessage)
+};
 
 function createSecret(
   secret,
