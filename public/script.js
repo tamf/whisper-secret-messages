@@ -4,8 +4,8 @@ var formdata = new FormData();
 
 const DEFAULT_EXPIRY = 60 * 60; // one hour
 
-const createForm = document.getElementById("create-form");
-createForm.addEventListener("submit", handleFormSubmit);
+// const createForm = document.getElementById("create-form");
+// createForm.addEventListener("submit", handleFormSubmit);
 
 const retrieveSecretForm = document.getElementById("retrieve-secret-form");
 retrieveSecretForm.addEventListener("submit", handleRetrieveSubmit);
@@ -35,9 +35,11 @@ function handleRetrieveSubmit(event) {
 
   let secretMessage = fetchSecret(
     // formData.passphrase,
-    formData.secretid);
-  console.log(secretMessage)
-};
+    formData.secretid
+  );
+  console.log("see if code goes here!");
+  console.log(secretMessage);
+}
 
 function createSecret(
   secret,
@@ -81,12 +83,12 @@ function deleteSecret(id) {
 }
 
 function fetchSecret(id) {
-  return fetch("/fetch?id=" + id)
-    .then((response) => response.json())
-    .then(function (data) {
-      console.log(data);
-      return data;
-    });
+    return fetch("/fetch?id=" + id)
+      .then((response) => response.json())
+      .then(function (data) {
+        console.log(data);
+        return data;
+      });
 }
 
 function encrypt(secret, passphrase) {
@@ -112,9 +114,9 @@ function getExpiryInSeconds(expiry, expiryUnit) {
 }
 
 function clearDataOnClick() {
-  document.getElementById("secret").value = "";
+  //   document.getElementById("secret").value = "";
   document.getElementById("passphrase").value = "";
   document.getElementById("secretid").value = "";
-  document.getElementById("limit").value = null;
-  document.getElementById("expiresIn").value = null;
+  //   document.getElementById("limit").value = null;
+  //   document.getElementById("expiresIn").value = null;
 }
