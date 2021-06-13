@@ -16,7 +16,6 @@
       to avoid connecting the SDK to running emulators.
     -->
   <script defer src="/__/firebase/init.js?useEmulator=true"></script>
-
 </head>
 
 <body>
@@ -40,15 +39,8 @@
         </label>
 
         <label>
-            <input
-             class="form-control"
-             placeholder="Time Expiry"
-             id="expiresIn"
-             name="expiresIn"
-             min="0" 
-             type="number"/>
+          <input class="form-control" placeholder="Time Expiry" id="expiresIn" name="expiresIn" min="0" type="number" />
         </label>
-
 
         <select class="form-select" size="3" aria-label="size 3 select example" name="expiryUnit">
           <option value="minutes">Minutes</option>
@@ -59,6 +51,16 @@
         </br>
         <button class="btn btn-outline-info">Send</button>
       </form>
+    </div>
+
+    <!-- The Modal -->
+    <div id="myModal" class="modal">
+
+      <!-- Modal content -->
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <p id="modal-paragraph">Some text in the Modal..</p>
+      </div>
     </div>
 </body>
 
