@@ -2,13 +2,19 @@
 
 Share text-based information securely and anonymously over the internet.
 
-Developer set up:
+Firebase set up:
+1. Create Firebase project, note the generated project id
+2. Add Cloud Firestore to project
 
-1. Follow [the prerequisites for developing Firebase Functions](https://firebase.google.com/docs/functions/get-started#set-up-node.js-and-the-firebase-cli), namely installing Node.js and the Firebase CLI.
+Developer set up:
+1. Install Node.js and Firebase CLI [link](https://firebase.google.com/docs/functions/get-started#set-up-node.js-and-the-firebase-cli)
 2. Clone this repo locally
 3. In terminal, navigate into the repo's directory
-4. Initialize Firebase `firebase init`. When prompted, choose not to overwrite any existing files. If overwritten, simply replace them from this repo. You may choose to set up Hosting, Functions, Firestore, and Emulators.
-5. Changes to webpages in `public` or to functions in `index.js` can be tested locally through the emulator. `firebase emulators:start`
+4. Initialize Firebase `firebase init`
+  - When prompted, select created project from previous step
+  - When prompted, choose not to overwrite any existing files. If overwritten, simply replace them from this repo
+  - You may choose to set up Hosting, Functions, Firestore, and Emulators
+5. Updates to UI in `public` or serverless functions in `functions` can be tested locally through the emulator `firebase emulators:start`
 
 Running UI:
 1. Navigate to `util` and install dependencies `npm install`
