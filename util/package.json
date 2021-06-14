@@ -1,0 +1,8 @@
+{
+  "scripts": {
+    "ui-proxy": "lcp --proxyUrl http://localhost:5001 --proxyPartial \"\""
+  },
+  "devDependencies": {
+    "local-cors-proxy": "^1.1.0"
+  }
+}
