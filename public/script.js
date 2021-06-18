@@ -10,7 +10,9 @@ createForm.addEventListener("submit", handleFormSubmit);
 
 const modal = document.getElementById("myModal");
 const span = document.getElementsByClassName("close")[0];
-const rootUrl = "localhost"; // this can be changed
+
+// change to emulator url
+const rootUrl = "http://localhost:8010/secret-starter/us-central1";
 
 function handleFormSubmit(event) {
 	event.preventDefault();
@@ -55,7 +57,7 @@ function createSecret(secret, accessesLimit, expiresIn, expiryUnit, passphrase) 
 		body: JSON.stringify(body)
 	};
 
-	return fetch("/create", options)
+	return fetch(rootUrl + "/create", options)
 	  .then(response => response.text())
 	  .then(function(result) {
 	  	console.log(result);
@@ -85,7 +87,7 @@ function deleteSecret(id) {
 }
 
 function fetchSecret(id) {
-	return fetch("/fetch?id=" + id)
+	return fetch(rootUrl + "/fetch?id=" + id)
 		.then(response => response.json())
 		.then(function(data) {
 			console.log(data);
