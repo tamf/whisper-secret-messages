@@ -10,7 +10,7 @@ createForm.addEventListener("submit", handleFormSubmit);
 
 const modal = document.getElementById("myModal");
 const span = document.getElementsByClassName("close")[0];
-const rootUrl = "localhost"; // this can be changed
+const fqdn = window.location.hostname;
 
 function handleFormSubmit(event) {
 	event.preventDefault();
@@ -77,7 +77,7 @@ function createShareableLink(json) {
 }
 
 function buildFetchUrl(id) {
-	return rootUrl + "/fetch?id=" + id;
+	return fqdn + "/fetch?id=" + id;
 }
 
 function deleteSecret(id) {
