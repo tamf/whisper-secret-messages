@@ -37,7 +37,9 @@ function handleRetrieveSubmit(event) {
 
   clearDataOnClick();
 
-  let secretMessage = fetchSecret(formData.passphrase, formData.secretid);
+  let secretMessage = fetchSecret(
+	//   formData.passphrase, 
+	  formData.secretid);
   console.log("see if code goes here!");
   console.log(secretMessage);
 }
