@@ -12,7 +12,7 @@ retrieveSecretForm.addEventListener("submit", handleRetrieveSubmit);
 
 const modal = document.getElementById("myModal");
 const span = document.getElementsByClassName("close")[0];
-const rootUrl = "localhost"; // this can be changed
+const fqdn = window.location.hostname;
 
 function handleFormSubmit(event) {
   event.preventDefault();
@@ -44,42 +44,37 @@ function handleRetrieveSubmit(event) {
   console.log(secretMessage);
 }
 
-function createSecret(
-  secret,
-  accessesLimit,
-  expiresIn,
-  expiryUnit,
-  passphrase
-) {
-  const encrypted = encrypt(secret, passphrase);
-  const expiresInSeconds = getExpiryInSeconds(expiresIn, expiryUnit);
 
-  const body = {
-    secret: encrypted,
-    limit: accessesLimit,
-    expiresIn: expiresInSeconds,
-  };
+function createSecret(secret, accessesLimit, expiresIn, expiryUnit, passphrase) {
+	const encrypted = encrypt(secret, passphrase);
+	const expiresInSeconds = getExpiryInSeconds(expiresIn, expiryUnit);
 
-  const options = {
-    method: "POST",
-    redirect: "follow",
-    headers: {
-      "Content-Type": "application/json",
-      Accept: "application/json",
-    },
-    body: JSON.stringify(body),
-  };
+	const body = {
+		"secret": encrypted,
+		"limit": accessesLimit,
+		"expiresIn": expiresInSeconds
+	};
 
-  return fetch("/create", options)
-    .then((response) => response.text())
-    .then(function (result) {
-      console.log(result);
-      createShareableLink(result);
-      return result;
-    })
-    .catch(function (error) {
-      console.log("error", error);
-    });
+	const options = {
+		method: 'POST',
+		redirect: 'follow',
+		headers: {
+			"Content-Type": "application/json",
+			"Accept": "application/json"
+		},
+		body: JSON.stringify(body)
+	};
+
+	return fetch("/create", options)
+	  .then(response => response.text())
+	  .then(function(result) {
+	  	console.log(result);
+	  	createShareableLink(result);
+	  	return result;
+	  }) 
+	  .catch(function(error) {
+	  	console.log('error', error);
+	  });
 }
 
 function createShareableLink(json) {

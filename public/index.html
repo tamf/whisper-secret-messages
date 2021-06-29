@@ -2,7 +2,6 @@
 <html>
 
 <head>
-
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
   <link rel="stylesheet" type="text/css" href="secret.css" media="screen" />
@@ -29,61 +28,188 @@
       <div class="collapse navbar-collapse" id="navmenu">
         <ul class="navbar-nav">
           <li class="nav-item">
-            <a href="#" class="nav-link">FAQ</a>
+            <a href="#" class="nav-link">Link 1</a>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link">Link 2</a>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link">Link 3</a>
           </li>
         </ul>
       </div>
     </div>
   </nav>
-  <!-- navbar -->
 
+  <section class="bg-dark text-light p-5 text-center text-sm-start">
+    <h1 class="display-3">Secret Messages</h1>
+    <div class="d-flex">
+      <div class="m-auto">
+        <form id="create-form">
+          <div class="textbox">
+            <textarea placeholder="Enter your secret here..." class="secret" type="secret" id="secret"
+              name="secret"></textarea>
+          </div>
 
-  <h1 class="display-3">Secret Messages</h1>
-  <div class="d-flex h-100">
-    <div class="m-auto">
-      <form id="create-form">
-        <div class="textbox">
-          <textarea placeholder="Enter your secret here..." class="secret" type="secret" id="secret"
-            name="secret"></textarea>
+          <label>
+            <input class="form-control" placeholder="Passphrase" type="passphrase" id="passphrase" name="passphrase" />
+          </label>
+
+          <label>
+            <input class="form-control" placeholder="Access Limit" min="0" type="number" id="limit" name="limit" />
+          </label>
+
+          <label>
+            <input class="form-control" placeholder="Time Expiry" id="expiresIn" name="expiresIn" min="0"
+              type="number" />
+          </label>
+
+          <select class="form-select" size="3" style="width:auto" aria-label="size 3 select example" name="expiryUnit">
+            <option value="minutes">Minutes</option>
+            <option value="hours">Hours</option>
+            <option value="days">Days</option>
+          </select>
+          <br>
+          </br>
+          <button class="btn btn-outline-info">Send</button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+ <!-- The Modal -->
+  <div id="myModal" class="modal" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Shareable link!</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
-
-        <label>
-          <input class="form-control" placeholder="Passphrase" type="passphrase" id="passphrase" name="passphrase" />
-        </label>
-
-        <label>
-          <input class="form-control" placeholder="Access Limit" min="0" type="number" id="limit" name="limit" />
-        </label>
-
-        <label>
-          <input class="form-control" placeholder="Time Expiry" id="expiresIn" name="expiresIn" min="0" type="number" />
-        </label>
-
-        <select class="form-select" size="3" style="width:auto" aria-label="size 3 select example" name="expiryUnit">
-          <option value="minutes">Minutes</option>
-          <option value="hours">Hours</option>
-          <option value="days">Days</option>
-        </select>
-        <br>
-        </br>
-        <button class="btn btn-outline-info">Send</button>
-      </form>
+          <!-- Modal content -->
+        <div class="modal-content">
+          <p id="modal-paragraph">Modal body text goes here.</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
     </div>
   </div>
 
-  <!-- The Modal -->
-  <div id="myModal" class="modal">
-
-    <!-- Modal content -->
-    <div class="modal-content">
-      <span class="close">&times;</span>
-      <p id="modal-paragraph">Some text in the Modal..</p>
+  <!-- Question Accordion -->
+  <section id="questions" class="p-5">
+    <div class="container">
+      <h2 class="text-center mb-4">Frequently Asked Questions</h2>
+      <div class="accordion accordion-flush" id="questions">
+        <!-- Item 1 -->
+        <div class="accordion-item">
+          <h2 class="accordion-header">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+              data-bs-target="#question-one">
+              Where exactly are you located?
+            </button>
+          </h2>
+          <div id="question-one" class="accordion-collapse collapse" data-bs-parent="#questions">
+            <div class="accordion-body">
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam
+              beatae fuga animi distinctio perspiciatis adipisci velit maiores
+              totam tempora accusamus modi explicabo accusantium consequatur,
+              praesentium rem quisquam molestias at quos vero. Officiis ad
+              velit doloremque at. Dignissimos praesentium necessitatibus
+              natus corrupti cum consequatur aliquam! Minima molestias iure
+              quam distinctio velit.
+            </div>
+          </div>
+        </div>
+        <!-- Item 2 -->
+        <div class="accordion-item">
+          <h2 class="accordion-header">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+              data-bs-target="#question-two">
+              How much does it cost to attend?
+            </button>
+          </h2>
+          <div id="question-two" class="accordion-collapse collapse" data-bs-parent="#questions">
+            <div class="accordion-body">
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam
+              beatae fuga animi distinctio perspiciatis adipisci velit maiores
+              totam tempora accusamus modi explicabo accusantium consequatur,
+              praesentium rem quisquam molestias at quos vero. Officiis ad
+              velit doloremque at. Dignissimos praesentium necessitatibus
+              natus corrupti cum consequatur aliquam! Minima molestias iure
+              quam distinctio velit.
+            </div>
+          </div>
+        </div>
+        <!-- Item 3 -->
+        <div class="accordion-item">
+          <h2 class="accordion-header">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+              data-bs-target="#question-three">
+              What do I need to Know?
+            </button>
+          </h2>
+          <div id="question-three" class="accordion-collapse collapse" data-bs-parent="#questions">
+            <div class="accordion-body">
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam
+              beatae fuga animi distinctio perspiciatis adipisci velit maiores
+              totam tempora accusamus modi explicabo accusantium consequatur,
+              praesentium rem quisquam molestias at quos vero. Officiis ad
+              velit doloremque at. Dignissimos praesentium necessitatibus
+              natus corrupti cum consequatur aliquam! Minima molestias iure
+              quam distinctio velit.
+            </div>
+          </div>
+        </div>
+        <!-- Item 4 -->
+        <div class="accordion-item">
+          <h2 class="accordion-header">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+              data-bs-target="#question-four">
+              How Do I sign up?
+            </button>
+          </h2>
+          <div id="question-four" class="accordion-collapse collapse" data-bs-parent="#questions">
+            <div class="accordion-body">
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam
+              beatae fuga animi distinctio perspiciatis adipisci velit maiores
+              totam tempora accusamus modi explicabo accusantium consequatur,
+              praesentium rem quisquam molestias at quos vero. Officiis ad
+              velit doloremque at. Dignissimos praesentium necessitatibus
+              natus corrupti cum consequatur aliquam! Minima molestias iure
+              quam distinctio velit.
+            </div>
+          </div>
+        </div>
+        <!-- Item 5 -->
+        <div class="accordion-item">
+          <h2 class="accordion-header">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+              data-bs-target="#question-five">
+              Do you help me find a job?
+            </button>
+          </h2>
+          <div id="question-five" class="accordion-collapse collapse" data-bs-parent="#questions">
+            <div class="accordion-body">
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam
+              beatae fuga animi distinctio perspiciatis adipisci velit maiores
+              totam tempora accusamus modi explicabo accusantium consequatur,
+              praesentium rem quisquam molestias at quos vero. Officiis ad
+              velit doloremque at. Dignissimos praesentium necessitatibus
+              natus corrupti cum consequatur aliquam! Minima molestias iure
+              quam distinctio velit.
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-  </div>
+  </section>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4"
     crossorigin="anonymous"></script>
 </body>
+
+
 
 </html>
