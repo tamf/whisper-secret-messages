@@ -4,14 +4,14 @@ var formdata = new FormData();
 
 const DEFAULT_EXPIRY = 60 * 60; // one hour
 
-// const createForm = document.getElementById("create-form");
-// createForm.addEventListener("submit", handleFormSubmit);
+const createForm = document.getElementById("create-form");
+createForm.addEventListener("submit", handleFormSubmit);
 
 const retrieveSecretForm = document.getElementById("retrieve-secret-form");
 retrieveSecretForm.addEventListener("submit", handleRetrieveSubmit);
 
-// const modal = document.getElementById("myModal");
-// const span = document.getElementsByClassName("close")[0];
+const modal = document.getElementById("myModal");
+const span = document.getElementsByClassName("close")[0];
 const fqdn = window.location.hostname;
 
 function handleFormSubmit(event) {
@@ -163,12 +163,12 @@ function displayShareableLink(url) {
   modal.style.display = "block";
 }
 
-// span.onclick = function () {
-//   modal.style.display = "none";
-// };
+span.onclick = function () {
+  modal.style.display = "none";
+};
 
-// window.onclick = function (event) {
-//   if (event.target == modal) {
-//     modal.style.display = "none";
-//   }
-// };
+window.onclick = function (event) {
+  if (event.target == modal) {
+    modal.style.display = "none";
+  }
+};
