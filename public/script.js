@@ -37,16 +37,13 @@ function handleRetrieveSubmit(event) {
 
   clearDataOnClick();
 
-  try {
-    fetchSecret(
-      //   formData.passphrase,
-      formData.secretid
-    ).then((secretMessage) => {
-      console.log(secretMessage.secret);
-    });
-  } catch (err) {
-    console.log("there is no secret message associated with this id");
-  }
+  fetchSecret(
+    //   formData.passphrase,
+    formData.secretid
+  ).then((result) => {
+    console.log(result.secret);
+    document.getElementById("secret-message-box").innerHTML = result.secret;
+  });
 }
 
 function createSecret(
