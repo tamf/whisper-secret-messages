@@ -2,8 +2,7 @@ var formdata = new FormData();
 
 // const baseUrl = "https://us-central1-secret-messages-7749d.cloudfunctions.net/"; //create?secret=hi&limit=1"
 
-
-const DEFAULT_EXPIRY = 60*60; // one hour
+const DEFAULT_EXPIRY = 60 * 60; // one hour
 
 const createForm = document.getElementById("create-form");
 createForm.addEventListener("submit", handleFormSubmit);
@@ -13,26 +12,19 @@ const span = document.getElementsByClassName("close")[0];
 const fqdn = window.location.hostname;
 
 function handleFormSubmit(event) {
-	event.preventDefault();
-	const form = event.currentTarget;
-	const formData = Object.fromEntries(new FormData(form).entries());
+  event.preventDefault();
+  const form = event.currentTarget;
+  const formData = Object.fromEntries(new FormData(form).entries());
 
-	clearDataOnClick();
+  clearDataOnClick();
 
-	createSecret(
-		formData.secret, 
-		formData.limit, 
-		formData.expiresIn, 
-		formData.expiryUnit, 
-		formData.passphrase
-	);
-}
-
-function clearDataOnClick() {
-	document.getElementById("secret").value="";
-	document.getElementById("passphrase").value="";
-	document.getElementById("limit").value=null;
-	document.getElementById("expiresIn").value=null;
+  createSecret(
+    formData.secret,
+    formData.limit,
+    formData.expiresIn,
+    formData.expiryUnit,
+    formData.passphrase
+  );
 }
 
 function createSecret(secret, accessesLimit, expiresIn, expiryUnit, passphrase) {
@@ -59,7 +51,7 @@ function createSecret(secret, accessesLimit, expiresIn, expiryUnit, passphrase) 
 	  .then(response => response.text())
 	  .then(function(result) {
 	  	console.log(result);
-		createShareableLink(result);
+	  	createShareableLink(result);
 	  	return result;
 	  }) 
 	  .catch(function(error) {
@@ -67,65 +59,70 @@ function createSecret(secret, accessesLimit, expiresIn, expiryUnit, passphrase) 
 	  });
 }
 
-
-
 function createShareableLink(json) {
-	let obj = JSON.parse(json);
-	let id = obj.id;
-	let url = buildFetchUrl(id);
-	displayShareableLink(url);
+  let obj = JSON.parse(json);
+  let id = obj.id;
+  let url = buildFetchUrl(id);
+  displayShareableLink(url);
 }
 
 function buildFetchUrl(id) {
-	return fqdn + "/fetch?id=" + id;
+  return fqdn + "/fetch?id=" + id;
 }
 
 function deleteSecret(id) {
-	// TODO
+  // TODO
 }
 
 function fetchSecret(id) {
-	return fetch("/fetch?id=" + id)
-		.then(response => response.json())
-		.then(function(data) {
-			console.log(data);
-			return data;
-		});
+  return fetch("/fetch?id=" + id)
+    .then((response) => response.json())
+    .then(function (data) {
+      console.log(data);
+      return data;
+    });
 }
 
 function encrypt(secret, passphrase) {
-	// TODO
-	return secret;
+  // TODO
+  return secret;
 }
 
 function getExpiryInSeconds(expiry, expiryUnit) {
-	if (!expiry) {
-		return DEFAULT_EXPIRY;
-	}
+  if (!expiry) {
+    return DEFAULT_EXPIRY;
+  }
 
-	switch(expiryUnit) {
-	  case "minutes":
-	    return expiry * 60;
-	  case "hours":
-	    return expiry * 60 * 60;
-	  case "days":
-	    return expiry * 24 * 60 * 60;
-	  default:
-	    return DEFAULT_EXPIRY;
-	}
+  switch (expiryUnit) {
+    case "minutes":
+      return expiry * 60;
+    case "hours":
+      return expiry * 60 * 60;
+    case "days":
+      return 24 * 60 * 60;
+    default:
+      return DEFAULT_EXPIRY;
+  }
+}
+
+function clearDataOnClick() {
+	document.getElementById("secret").value="";
+	document.getElementById("passphrase").value="";
+	document.getElementById("limit").value=null;
+	document.getElementById("expiresIn").value=null;
 }
 
 function displayShareableLink(url) {
-	document.getElementById("modal-paragraph").innerHTML = "Secret id: " + url;
-	modal.style.display = "block";
+  document.getElementById("modal-paragraph").innerHTML = "Secret id: " + url;
+  modal.style.display = "block";
 }
 
 span.onclick = function() {
   modal.style.display = "none";
-}
+};
 
 window.onclick = function(event) {
   if (event.target == modal) {
     modal.style.display = "none";
   }
-}
+};
