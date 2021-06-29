@@ -38,43 +38,49 @@ function handleRetrieveSubmit(event) {
   clearDataOnClick();
 
   let secretMessage = fetchSecret(
-	//   formData.passphrase, 
-	  formData.secretid);
+    //   formData.passphrase,
+    formData.secretid
+  );
   console.log("see if code goes here!");
   console.log(secretMessage);
 }
 
+function createSecret(
+  secret,
+  accessesLimit,
+  expiresIn,
+  expiryUnit,
+  passphrase
+) {
+  const encrypted = encrypt(secret, passphrase);
+  const expiresInSeconds = getExpiryInSeconds(expiresIn, expiryUnit);
 
-function createSecret(secret, accessesLimit, expiresIn, expiryUnit, passphrase) {
-	const encrypted = encrypt(secret, passphrase);
-	const expiresInSeconds = getExpiryInSeconds(expiresIn, expiryUnit);
+  const body = {
+    secret: encrypted,
+    limit: accessesLimit,
+    expiresIn: expiresInSeconds,
+  };
 
-	const body = {
-		"secret": encrypted,
-		"limit": accessesLimit,
-		"expiresIn": expiresInSeconds
-	};
+  const options = {
+    method: "POST",
+    redirect: "follow",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+    },
+    body: JSON.stringify(body),
+  };
 
-	const options = {
-		method: 'POST',
-		redirect: 'follow',
-		headers: {
-			"Content-Type": "application/json",
-			"Accept": "application/json"
-		},
-		body: JSON.stringify(body)
-	};
-
-	return fetch("/create", options)
-	  .then(response => response.text())
-	  .then(function(result) {
-	  	console.log(result);
-	  	createShareableLink(result);
-	  	return result;
-	  }) 
-	  .catch(function(error) {
-	  	console.log('error', error);
-	  });
+  return fetch("/create", options)
+    .then((response) => response.text())
+    .then(function (result) {
+      console.log(result);
+      createShareableLink(result);
+      return result;
+    })
+    .catch(function (error) {
+      console.log("error", error);
+    });
 }
 
 function createShareableLink(json) {
@@ -85,7 +91,7 @@ function createShareableLink(json) {
 }
 
 function buildFetchUrl(id) {
-  return rootUrl + "/fetch?id=" + id;
+  return fqdn + "/fetch?id=" + id;
 }
 
 function deleteSecret(id) {
@@ -124,11 +130,31 @@ function getExpiryInSeconds(expiry, expiryUnit) {
 }
 
 function clearDataOnClick() {
-  document.getElementById("secret").value = "";
-  document.getElementById("passphrase").value = "";
-  document.getElementById("secretid").value = "";
-  document.getElementById("limit").value = null;
-  document.getElementById("expiresIn").value = null;
+  let secret = document.getElementById("secret");
+  let passphrase = document.getElementById("passphrase");
+  let secretid = document.getElementById("secretid");
+  let limit = document.getElementById("limit");
+  let expiresIn = document.getElementById("expiresIn");
+
+  if (secret) {
+    secret.value = "";
+  }
+
+  if (passphrase) {
+    passphrase.value = "";
+  }
+
+  if (secretid) {
+    secretid.value = "";
+  }
+
+  if (limit) {
+    limit.value = null;
+  }
+
+  if (expiresIn) {
+    expiresIn.value = null;
+  }
 }
 
 function displayShareableLink(url) {
