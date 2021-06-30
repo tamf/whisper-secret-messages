@@ -1,6 +1,7 @@
 var formdata = new FormData();
 
 const DEFAULT_EXPIRY = 60 * 60; // one hour
+const PASSPHRASE_CHARSET = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz~!@#$%^&*()?";
 const enc = new TextEncoder();
 
 const createForm = document.getElementById("create-form");
@@ -26,8 +27,8 @@ function handleFormSubmit(event) {
   );
 }
 
-function createSecret(secret, accessesLimit, expiresIn, expiryUnit, passphrase) {
-	const encrypted = encrypt(secret, passphrase);
+async function createSecret(secret, accessesLimit, expiresIn, expiryUnit, passphrase) {
+	const encrypted = await encrypt(secret, passphrase);
 	const expiresInSeconds = getExpiryInSeconds(expiresIn, expiryUnit);
 
 	const body = {
@@ -87,8 +88,7 @@ async function encrypt(msg, passphrase) {
 	const iv = window.crypto.getRandomValues(new Uint8Array(16));
 
 	if (!passphrase) {
-		// TODO: generate passphrase
-		passphrase = ""; 
+		passphrase = getRandomString(64);
 	}
 
  	const keyMaterial = await window.crypto.subtle.importKey(
@@ -121,7 +121,15 @@ async function encrypt(msg, passphrase) {
 	    enc.encode(msg)
 	);
 
-	return encrypted;
+	const encryptedBase64 = btoa(encrypted);
+
+	return encryptedBase64;
+}
+
+function getRandomString(length) {
+	return Array.from(crypto.getRandomValues(new Uint32Array(length)))
+		.map((i) => PASSPHRASE_CHARSET[i % PASSPHRASE_CHARSET.length])
+		.join('');
 }
 
 async function decrypt(encrypted, passphrase) {
