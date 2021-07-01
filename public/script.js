@@ -10,6 +10,12 @@ if (createForm) {
   createForm.addEventListener("submit", handleFormSubmit);
 }
 
+const retrieveSecretForm = document.getElementById("retrieve-secret-form");
+
+if (retrieveSecretForm) {
+  retrieveSecretForm.addEventListener("submit", handleRetrieveSubmit);
+}
+
 const span = document.getElementsByClassName("close")[0];
 const fqdn = window.location.hostname;
 
@@ -61,6 +67,22 @@ async function createSecret(secret, accessesLimit, expiresIn, expiryUnit, passph
 	  });
 }
 
+function handleRetrieveSubmit(event) {
+  event.preventDefault();
+  const form = event.currentTarget;
+  const formData = Object.fromEntries(new FormData(form).entries());
+
+  clearDataOnClick();
+
+  fetchSecret(
+    //   formData.passphrase,
+    formData.secretid
+  ).then((result) => {
+    console.log(result.secret);
+    document.getElementById("secret-message-box").innerHTML = result.secret;
+  });
+}
+
 function createShareableLink(json) {
   let obj = JSON.parse(json);
   let id = obj.id;
@@ -69,7 +91,7 @@ function createShareableLink(json) {
 }
 
 function buildFetchUrl(id) {
-  return fqdn + "/fetch?id=" + id;
+  return fqdn + "/retrieve-id=" + id;
 }
 
 function deleteSecret(id) {
