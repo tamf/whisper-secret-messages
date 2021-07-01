@@ -5,6 +5,19 @@ const PASSPHRASE_CHARSET = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnop
 const enc = new TextEncoder();
 
 const createForm = document.getElementById("create-form");
+<<<<<<< HEAD
+=======
+
+if (createForm) {
+  createForm.addEventListener("submit", handleFormSubmit);
+}
+
+const retrieveSecretForm = document.getElementById("retrieve-secret-form");
+
+if (retrieveSecretForm) {
+  retrieveSecretForm.addEventListener("submit", handleRetrieveSubmit);
+}
+>>>>>>> fetchSecretForm
 
 if (createForm) {
   createForm.addEventListener("submit", handleFormSubmit);
@@ -29,6 +42,7 @@ function handleFormSubmit(event) {
   );
 }
 
+<<<<<<< HEAD
 async function createSecret(secret, accessesLimit, expiresIn, expiryUnit, passphrase) {
 	const encrypted = await encrypt(secret, passphrase);
 	const expiresInSeconds = getExpiryInSeconds(expiresIn, expiryUnit);
@@ -59,6 +73,60 @@ async function createSecret(secret, accessesLimit, expiresIn, expiryUnit, passph
 	  .catch(function(error) {
 	  	console.log('error', error);
 	  });
+=======
+function handleRetrieveSubmit(event) {
+  event.preventDefault();
+  const form = event.currentTarget;
+  const formData = Object.fromEntries(new FormData(form).entries());
+
+  clearDataOnClick();
+
+  fetchSecret(
+    //   formData.passphrase,
+    formData.secretid
+  ).then((result) => {
+    console.log(result.secret);
+    document.getElementById("secret-message-box").innerHTML = result.secret;
+  });
+}
+
+function createSecret(
+  secret,
+  accessesLimit,
+  expiresIn,
+  expiryUnit,
+  passphrase
+) {
+  const encrypted = encrypt(secret, passphrase);
+  const expiresInSeconds = getExpiryInSeconds(expiresIn, expiryUnit);
+
+  const body = {
+    secret: encrypted,
+    limit: accessesLimit,
+    expiresIn: expiresInSeconds,
+  };
+
+  const options = {
+    method: "POST",
+    redirect: "follow",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+    },
+    body: JSON.stringify(body),
+  };
+
+  return fetch("/create", options)
+    .then((response) => response.text())
+    .then(function (result) {
+      console.log(result);
+      createShareableLink(result);
+      return result;
+    })
+    .catch(function (error) {
+      console.log("error", error);
+    });
+>>>>>>> fetchSecretForm
 }
 
 function createShareableLink(json) {
@@ -149,17 +217,38 @@ function getExpiryInSeconds(expiry, expiryUnit) {
     case "hours":
       return expiry * 60 * 60;
     case "days":
-      return 24 * 60 * 60;
+      return expiry * 24 * 60 * 60;
     default:
       return DEFAULT_EXPIRY;
   }
 }
 
 function clearDataOnClick() {
-	document.getElementById("secret").value="";
-	document.getElementById("passphrase").value="";
-	document.getElementById("limit").value=null;
-	document.getElementById("expiresIn").value=null;
+  let secret = document.getElementById("secret");
+  let passphrase = document.getElementById("passphrase");
+  let secretid = document.getElementById("secretid");
+  let limit = document.getElementById("limit");
+  let expiresIn = document.getElementById("expiresIn");
+
+  if (secret) {
+    secret.value = "";
+  }
+
+  if (passphrase) {
+    passphrase.value = "";
+  }
+
+  if (secretid) {
+    secretid.value = "";
+  }
+
+  if (limit) {
+    limit.value = null;
+  }
+
+  if (expiresIn) {
+    expiresIn.value = null;
+  }
 }
 
 function displayShareableLink(url) {
