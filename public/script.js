@@ -91,7 +91,7 @@ function createShareableLink(json) {
 }
 
 function buildFetchUrl(id) {
-  return fqdn + "/retrieve-id=" + id;
+  return fqdn + "/retrieve-secret-id=" + id;
 }
 
 function deleteSecret(id) {
