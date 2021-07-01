@@ -7,7 +7,9 @@ const urlSplit = window.location.pathname.split('=');
 const secretIdBox = document.getElementById("secretid");
 
 if (secretIdBox) {
+  if(urlSplit) {
   secretIdBox.value = urlSplit[1];
+  }
 }
 
 const createForm = document.getElementById("create-form");
