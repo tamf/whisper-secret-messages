@@ -28,7 +28,7 @@
       },
 
       {
-        "source": "/retrieve-id**",
+        "source": "/retrieve-secret-id**",
         "destination": "/retrieve-secret.html"
       },
 
