@@ -5,8 +5,6 @@ const PASSPHRASE_CHARSET = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnop
 const enc = new TextEncoder();
 
 const createForm = document.getElementById("create-form");
-<<<<<<< HEAD
-=======
 
 if (createForm) {
   createForm.addEventListener("submit", handleFormSubmit);
@@ -16,11 +14,6 @@ const retrieveSecretForm = document.getElementById("retrieve-secret-form");
 
 if (retrieveSecretForm) {
   retrieveSecretForm.addEventListener("submit", handleRetrieveSubmit);
-}
->>>>>>> fetchSecretForm
-
-if (createForm) {
-  createForm.addEventListener("submit", handleFormSubmit);
 }
 
 const span = document.getElementsByClassName("close")[0];
@@ -42,7 +35,6 @@ function handleFormSubmit(event) {
   );
 }
 
-<<<<<<< HEAD
 async function createSecret(secret, accessesLimit, expiresIn, expiryUnit, passphrase) {
 	const encrypted = await encrypt(secret, passphrase);
 	const expiresInSeconds = getExpiryInSeconds(expiresIn, expiryUnit);
@@ -73,7 +65,8 @@ async function createSecret(secret, accessesLimit, expiresIn, expiryUnit, passph
 	  .catch(function(error) {
 	  	console.log('error', error);
 	  });
-=======
+}
+
 function handleRetrieveSubmit(event) {
   event.preventDefault();
   const form = event.currentTarget;
@@ -90,45 +83,6 @@ function handleRetrieveSubmit(event) {
   });
 }
 
-function createSecret(
-  secret,
-  accessesLimit,
-  expiresIn,
-  expiryUnit,
-  passphrase
-) {
-  const encrypted = encrypt(secret, passphrase);
-  const expiresInSeconds = getExpiryInSeconds(expiresIn, expiryUnit);
-
-  const body = {
-    secret: encrypted,
-    limit: accessesLimit,
-    expiresIn: expiresInSeconds,
-  };
-
-  const options = {
-    method: "POST",
-    redirect: "follow",
-    headers: {
-      "Content-Type": "application/json",
-      Accept: "application/json",
-    },
-    body: JSON.stringify(body),
-  };
-
-  return fetch("/create", options)
-    .then((response) => response.text())
-    .then(function (result) {
-      console.log(result);
-      createShareableLink(result);
-      return result;
-    })
-    .catch(function (error) {
-      console.log("error", error);
-    });
->>>>>>> fetchSecretForm
-}
-
 function createShareableLink(json) {
   let obj = JSON.parse(json);
   let id = obj.id;
@@ -137,7 +91,7 @@ function createShareableLink(json) {
 }
 
 function buildFetchUrl(id) {
-  return fqdn + "/fetch?id=" + id;
+  return fqdn + "/retrieve-id=" + id;
 }
 
 function deleteSecret(id) {
