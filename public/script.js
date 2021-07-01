@@ -5,9 +5,11 @@ var formdata = new FormData();
 const DEFAULT_EXPIRY = 60 * 60; // one hour
 
 const createForm = document.getElementById("create-form");
-createForm.addEventListener("submit", handleFormSubmit);
 
-const modal = document.getElementById("myModal");
+if (createForm) {
+  createForm.addEventListener("submit", handleFormSubmit);
+}
+
 const span = document.getElementsByClassName("close")[0];
 const fqdn = window.location.hostname;
 
@@ -113,16 +115,5 @@ function clearDataOnClick() {
 }
 
 function displayShareableLink(url) {
-  document.getElementById("modal-paragraph").innerHTML = "Secret id: " + url;
-  modal.style.display = "block";
+  document.getElementById("modal-paragraph").innerHTML = "  Secret id: " + url;
 }
-
-span.onclick = function() {
-  modal.style.display = "none";
-};
-
-window.onclick = function(event) {
-  if (event.target == modal) {
-    modal.style.display = "none";
-  }
-};
