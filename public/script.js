@@ -1,8 +1,8 @@
 var formdata = new FormData();
 
-// const baseUrl = "https://us-central1-secret-messages-7749d.cloudfunctions.net/"; //create?secret=hi&limit=1"
-
 const DEFAULT_EXPIRY = 60 * 60; // one hour
+const PASSPHRASE_CHARSET = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz~!@#$%^&*()?";
+const enc = new TextEncoder();
 
 const createForm = document.getElementById("create-form");
 
@@ -29,8 +29,8 @@ function handleFormSubmit(event) {
   );
 }
 
-function createSecret(secret, accessesLimit, expiresIn, expiryUnit, passphrase) {
-	const encrypted = encrypt(secret, passphrase);
+async function createSecret(secret, accessesLimit, expiresIn, expiryUnit, passphrase) {
+	const encrypted = await encrypt(secret, passphrase);
 	const expiresInSeconds = getExpiryInSeconds(expiresIn, expiryUnit);
 
 	const body = {
@@ -85,9 +85,57 @@ function fetchSecret(id) {
     });
 }
 
-function encrypt(secret, passphrase) {
-  // TODO
-  return secret;
+async function encrypt(msg, passphrase) {
+	const salt = window.crypto.getRandomValues(new Uint8Array(16));
+	const iv = window.crypto.getRandomValues(new Uint8Array(16));
+
+	if (!passphrase) {
+		passphrase = getRandomString(64);
+	}
+
+ 	const keyMaterial = await window.crypto.subtle.importKey(
+	    "raw",
+	    enc.encode(passphrase),
+	    "PBKDF2",
+	    false,
+	    ["deriveBits", "deriveKey"]
+	);
+
+	const key = await window.crypto.subtle.deriveKey(
+	    {
+	      "name": "PBKDF2",
+	      salt: salt,
+	      "iterations": 100000,
+	      "hash": "SHA-256"
+	    },
+	    keyMaterial,
+	    { "name": "AES-CBC", "length": 256},
+	    true,
+	    [ "encrypt", "decrypt" ]
+  	);
+
+	const encrypted = await window.crypto.subtle.encrypt(
+		{
+	    	name: "AES-CBC",
+	    	iv: iv
+    	},
+	    key,
+	    enc.encode(msg)
+	);
+
+	const encryptedBase64 = btoa(encrypted);
+
+	return encryptedBase64;
+}
+
+function getRandomString(length) {
+	return Array.from(crypto.getRandomValues(new Uint32Array(length)))
+		.map((i) => PASSPHRASE_CHARSET[i % PASSPHRASE_CHARSET.length])
+		.join('');
+}
+
+async function decrypt(encrypted, passphrase) {
+	// TODO
 }
 
 function getExpiryInSeconds(expiry, expiryUnit) {
