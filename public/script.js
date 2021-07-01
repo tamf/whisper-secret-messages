@@ -7,7 +7,7 @@ const urlSplit = window.location.pathname.split('=');
 const secretIdBox = document.getElementById("secretid");
 
 if (secretIdBox) {
-  if(urlSplit) {
+  if (typeof urlSplit[1] !== 'undefined') {
   secretIdBox.value = urlSplit[1];
   }
 }
@@ -216,3 +216,5 @@ function clearDataOnClick() {
 function displayShareableLink(url) {
   document.getElementById("modal-paragraph").innerHTML = "  Secret id: " + url;
 }
+
+
