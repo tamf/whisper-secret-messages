@@ -7,6 +7,10 @@ const urlSplit = window.location.pathname.split('=');
 const secretIdBox = document.getElementById("secretid");
 
 if (secretIdBox) {
+<<<<<<< HEAD
+=======
+  if (typeof urlSplit[1] !== 'undefined') {
+>>>>>>> 1ece727... check whether id exists in retrieve-secret url
   secretIdBox.value = urlSplit[1];
 }
 
@@ -193,3 +197,5 @@ function clearDataOnClick() {
 function displayShareableLink(url) {
   document.getElementById("modal-paragraph").innerHTML = "  Secret id: " + url;
 }
+
+
