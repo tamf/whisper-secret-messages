@@ -3,6 +3,12 @@ var formdata = new FormData();
 const DEFAULT_EXPIRY = 60 * 60; // one hour
 const PASSPHRASE_CHARSET = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz~!@#$%^&*()?";
 const enc = new TextEncoder();
+const urlSplit = window.location.pathname.split('=');
+const secretIdBox = document.getElementById("secretid");
+
+if (secretIdBox) {
+  secretIdBox.value = urlSplit[1];
+}
 
 const createForm = document.getElementById("create-form");
 
