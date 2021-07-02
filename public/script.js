@@ -7,11 +7,9 @@ const urlSplit = window.location.pathname.split('=');
 const secretIdBox = document.getElementById("secretid");
 
 if (secretIdBox) {
-<<<<<<< HEAD
-=======
   if (typeof urlSplit[1] !== 'undefined') {
->>>>>>> 1ece727... check whether id exists in retrieve-secret url
   secretIdBox.value = urlSplit[1];
+ }
 }
 
 const createForm = document.getElementById("create-form");
@@ -188,12 +186,33 @@ function getExpiryInSeconds(expiry, expiryUnit) {
 }
 
 function clearDataOnClick() {
-	document.getElementById("secret").value="";
-	document.getElementById("passphrase").value="";
-	document.getElementById("limit").value=null;
-	document.getElementById("expiresIn").value=null;
-}
-
+	let secret = document.getElementById("secret");
+	let passphrase = document.getElementById("passphrase");
+	let secretid = document.getElementById("secretid");
+	let limit = document.getElementById("limit");
+	let expiresIn = document.getElementById("expiresIn");
+  
+	if (secret) {
+	  secret.value = "";
+	}
+  
+	if (passphrase) {
+	  passphrase.value = "";
+	}
+  
+	if (secretid) {
+	  secretid.value = "";
+	}
+  
+	if (limit) {
+	  limit.value = null;
+	}
+  
+	if (expiresIn) {
+	  expiresIn.value = null;
+	}
+  }
+  
 function displayShareableLink(url) {
   document.getElementById("modal-paragraph").innerHTML = "  Secret id: " + url;
 }
