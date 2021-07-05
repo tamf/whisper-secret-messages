@@ -31,7 +31,7 @@ exports.create = functions.https.onRequest(async (req, res) => {
 		return res.sendStatus(400);
 	}
 
-	const expiryTime = Date.now() / 1000 + expiry;
+	const expiryTime = Date.now() / 1000 + expiresIn;
 	// stores the secret into Firestore
 	const writeResult = await admin.firestore()
   									.collection('messages')
