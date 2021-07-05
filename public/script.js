@@ -3,12 +3,20 @@ var formdata = new FormData();
 const DEFAULT_EXPIRY = 60 * 60; // one hour
 const PASSPHRASE_CHARSET =
   "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz~!@#$%^&*()?";
+const PASSPHRASE_LEN = 64;
+const SALT_LEN = 16;
+const IV_LEN = 16;
 const enc = new TextEncoder();
-const urlSplit = window.location.pathname.split("=");
+const url = new URL(window.location.href);
 const secretIdBox = document.getElementById("secretid");
+const passphraseBox = document.getElementById("passphrase");
 
-if (secretIdBox && urlSplit[1]) {
-  secretIdBox.value = urlSplit[1];
+if (secretIdBox && url.searchParams.get("id")) {
+  secretIdBox.value = url.searchParams.get("id");
+}
+
+if (passphraseBox && url.searchParams.get("passphrase")) {
+  passphraseBox.value = url.searchParams.get("passphrase");
 }
 
 const createForm = document.getElementById("create-form");
@@ -24,7 +32,7 @@ if (retrieveSecretForm) {
 }
 
 const span = document.getElementsByClassName("close")[0];
-const fqdn = window.location.hostname;
+const fqdn = window.location.host;
 
 function handleFormSubmit(event) {
   event.preventDefault();
@@ -53,7 +61,7 @@ async function createSecret(
   const expiresInSeconds = getExpiryInSeconds(expiresIn, expiryUnit);
 
   const body = {
-    secret: encrypted,
+    secret: encrypted.cipherText,
     limit: accessesLimit,
     expiresIn: expiresInSeconds,
   };
@@ -72,7 +80,7 @@ async function createSecret(
     .then((response) => response.text())
     .then(function (result) {
       console.log(result);
-      createShareableLink(result);
+      createShareableLink(result, encrypted.passphrase);
       return result;
     })
     .catch(function (error) {
@@ -96,15 +104,14 @@ function handleRetrieveSubmit(event) {
   });
 }
 
-function createShareableLink(json) {
-  let obj = JSON.parse(json);
-  let id = obj.id;
-  let url = buildFetchUrl(id);
+function createShareableLink(json, passphrase) {
+  const obj = JSON.parse(json);
+  const url = buildFetchUrl(obj.id, passphrase);
   displayShareableLink(url);
 }
 
-function buildFetchUrl(id) {
-  return fqdn + "/retrieve-secret-id=" + id;
+function buildFetchUrl(id, passphrase) {
+  return fqdn + "/retrieve-secret?id=" + id + "&passphrase=" + passphrase;
 }
 
 function deleteSecret(id) {
@@ -121,11 +128,13 @@ function fetchSecret(id) {
 }
 
 async function encrypt(msg, passphrase) {
-  const salt = window.crypto.getRandomValues(new Uint8Array(16));
-  const iv = window.crypto.getRandomValues(new Uint8Array(16));
+  const salt = window.crypto.getRandomValues(new Uint8Array(SALT_LEN));
+  const iv = window.crypto.getRandomValues(new Uint8Array(IV_LEN));
 
-  if (!passphrase) {
-    passphrase = getRandomString(64);
+  const passphraseGiven = !!passphrase;
+
+  if (!passphraseGiven) {
+    passphrase = getRandomString(PASSPHRASE_LEN);
   }
 
   const keyMaterial = await window.crypto.subtle.importKey(
@@ -149,7 +158,7 @@ async function encrypt(msg, passphrase) {
     ["encrypt", "decrypt"]
   );
 
-  const encrypted = await window.crypto.subtle.encrypt(
+  let encrypted = await window.crypto.subtle.encrypt(
     {
       name: "AES-CBC",
       iv: iv,
@@ -157,10 +166,19 @@ async function encrypt(msg, passphrase) {
     key,
     enc.encode(msg)
   );
+  encrypted = new Uint8Array(encrypted);
 
-  const encryptedBase64 = btoa(new Uint8Array(encrypted));
+  const cipher = new Uint8Array(IV_LEN + SALT_LEN + encrypted.length);
+  cipher.set(iv, 0);
+  cipher.set(salt, iv.length);
+  cipher.set(encrypted, iv.length + salt.length);
 
-  return encryptedBase64;
+  const output = {
+    cipherText: btoa(cipher),
+    passphrase: passphraseGiven ? "" : passphrase
+  };
+
+  return output;
 }
 
 function getRandomString(length) {
@@ -219,5 +237,5 @@ function clearDataOnClick() {
 }
 
 function displayShareableLink(url) {
-  document.getElementById("modal-paragraph").innerHTML = "  Secret id: " + url;
+  document.getElementById("modal-paragraph").innerHTML = "  Sharing link: " + url;
 }
