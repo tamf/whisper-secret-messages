@@ -158,7 +158,7 @@ async function encrypt(msg, passphrase) {
     enc.encode(msg)
   );
 
-  const encryptedBase64 = btoa(encrypted);
+  const encryptedBase64 = btoa(new Uint8Array(encrypted));
 
   return encryptedBase64;
 }
