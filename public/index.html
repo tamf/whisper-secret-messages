@@ -112,12 +112,12 @@
           <div id="question-one" class="accordion-collapse collapse" data-bs-parent="#questions">
             <div class="accordion-body">
               <p>On the <i>Secret Messages</i> page, enter your message into the text box.</p>
-              <p>You may also choose to specify additional pieces of information: (1) the passphrase, which is used for decrypting
+              <p>You may also choose to specify additional pieces of information: (1) the passphrase, which is used for
+                decrypting
                 the message, (2) the access limit, which specifies the number of times your message can be retrieved
                 before it is deleted from the database, and (3) the time expiry. Please note that If the optional
-                information is not provided, the program will use the default values as inputs. The default for access limit is five and the default for time expiry is one hour.</p>
-              <p> After clicking the send button, a link will be generated which you can share with your friends so that
-                they can access your secret!</p>
+                information is not provided, the program will use the default values as inputs. The default for access
+                limit is five and the default for time expiry is one hour.</p>
 
             </div>
           </div>
@@ -132,7 +132,13 @@
           </h2>
           <div id="question-two" class="accordion-collapse collapse" data-bs-parent="#questions">
             <div class="accordion-body">
-              Give process of what goes on after sending user clicks send, as well as when receiving user goes to link.
+              <p>After clicking send, your message will first be encrypted before it is stored into our Cloud Firestore
+                database. A link will then be generated which you can share with your friends so they can access your
+                secret!</p>
+              <p>Once the receiving user accesses the shareable link, they will get redirected to the <i>Retrieve
+                  Secret</i> page. The required information will auto-fill so all they need to do is click the retrieve
+                button to access your message.</p>
+
             </div>
           </div>
         </div>
