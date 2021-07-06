@@ -117,7 +117,7 @@
                 the message, (2) the access limit, which specifies the number of times your message can be retrieved
                 before it is deleted from the database, and (3) the time expiry. Please note that If the optional
                 information is not provided, the program will use the default values as inputs. The default for access
-                limit is five and the default for time expiry is one hour.</p>
+                limit is five times and the default for time expiry is one hour.</p>
 
             </div>
           </div>
@@ -133,9 +133,9 @@
           <div id="question-two" class="accordion-collapse collapse" data-bs-parent="#questions">
             <div class="accordion-body">
               <p>After clicking send, your message will first be encrypted before it is stored into our Cloud Firestore
-                database. A link will then be generated which you can share with your friends so they can access your
-                secret!</p>
-              <p>Once the receiving user accesses the shareable link, they will get redirected to the <i>Retrieve
+                database. A link which you can share with your friends will then be generated so they can access your secret!
+              </p>
+              <p>Once the receiving user accesses the shareable link, they will be redirected to the <i>Retrieve
                   Secret</i> page. The required information will auto-fill so all they need to do is click the retrieve
                 button to access your message.</p>
 
@@ -152,7 +152,22 @@
           </h2>
           <div id="question-three" class="accordion-collapse collapse" data-bs-parent="#questions">
             <div class="accordion-body">
-              Describe the encryption process as well as what libraries are used
+              <p>The following encryption steps were performed using Web Crypto, a cryptography API available in modern
+                web browsers:
+              </p>
+              <p>(1) We first create a password based key using PBKDF2, a key derivation function that applies hash
+                functions to the inputted passphrase to derive a secret key. This key will be used to derive our
+                encryption key for encryption and decryption.</p>
+              <p>(2) We use the above-derived key as input to generate the AES-GCM encryption key. In this stage, we
+                also specify the salt, the initialization vector (iv), the hash algorithm we will use on the PBKDF2 key
+                (we will be using SHA-256), and the number of iterations in which the hash algorithm will be applied to
+                the PBKDF2 key. A salt is randomly generated data that gets appended to the PBKDF2 key, before the hash
+                algorithm is applied, to add an additional layer of security. The iv is randomly generated data that is
+                used for preventing repetition in data encryption.
+              </p>
+              <p>(3) Finally, the AES-GCM key is used to encrypt your message. You can think of encryption as the
+                act of scrambling the contents of your message.
+              </p>
             </div>
           </div>
         </div>
@@ -175,18 +190,12 @@
           <h2 class="accordion-header">
             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
               data-bs-target="#question-five">
-              n/a
+             Source code
             </button>
           </h2>
           <div id="question-five" class="accordion-collapse collapse" data-bs-parent="#questions">
             <div class="accordion-body">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam
-              beatae fuga animi distinctio perspiciatis adipisci velit maiores
-              totam tempora accusamus modi explicabo accusantium consequatur,
-              praesentium rem quisquam molestias at quos vero. Officiis ad
-              velit doloremque at. Dignissimos praesentium necessitatibus
-              natus corrupti cum consequatur aliquam! Minima molestias iure
-              quam distinctio velit.
+              https://github.com/tamf/whisper-secret-messages
             </div>
           </div>
         </div>
