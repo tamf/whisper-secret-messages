@@ -174,7 +174,7 @@ async function encrypt(msg, passphrase) {
   cipher.set(encrypted, iv.length + salt.length);
 
   const output = {
-    cipherText: btoa(cipher),
+    cipherText: btoa(String.fromCharCode.apply(null, cipher)),
     passphrase: passphraseGiven ? "" : passphrase
   };
 
@@ -188,7 +188,8 @@ function getRandomString(length) {
 }
 
 async function decrypt(encrypted, passphrase) {
-  // TODO
+   encrypted = Uint8Array.from(atob(encrypted), (c) => c.charCodeAt(0));
+   
 }
 
 function getExpiryInSeconds(expiry, expiryUnit) {
