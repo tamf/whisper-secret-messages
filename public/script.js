@@ -6,7 +6,10 @@ const PASSPHRASE_CHARSET =
 const PASSPHRASE_LEN = 64;
 const SALT_LEN = 16;
 const IV_LEN = 16;
+
 const enc = new TextEncoder();
+const dec = new TextDecoder();
+
 const url = new URL(window.location.href);
 const secretIdBox = document.getElementById("secretid");
 const passphraseBox = document.getElementById("passphrase");
@@ -96,11 +99,12 @@ function handleRetrieveSubmit(event) {
   clearDataOnClick();
 
   fetchSecret(
-    //   formData.passphrase,
     formData.secretid
   ).then((result) => {
-    console.log(result.secret);
-    document.getElementById("secret-message-box").innerHTML = result.secret;
+    return decrypt(result.secret, formData.passphrase);
+  }).then((decrypted) => {
+    console.log(decrypted);
+    document.getElementById("secret-message-box").innerHTML = decrypted;
   });
 }
 
@@ -111,7 +115,7 @@ function createShareableLink(json, passphrase) {
 }
 
 function buildFetchUrl(id, passphrase) {
-  return fqdn + "/retrieve-secret?id=" + id + "&passphrase=" + passphrase;
+  return fqdn + "/retrieve-secret?id=" + encodeURIComponent(id) + "&passphrase=" + encodeURIComponent(passphrase);
 }
 
 function deleteSecret(id) {
@@ -174,7 +178,7 @@ async function encrypt(msg, passphrase) {
   cipher.set(encrypted, iv.length + salt.length);
 
   const output = {
-    cipherText: btoa(cipher),
+    cipherText: btoa(String.fromCharCode.apply(null, cipher)),
     passphrase: passphraseGiven ? "" : passphrase
   };
 
@@ -187,8 +191,44 @@ function getRandomString(length) {
     .join("");
 }
 
-async function decrypt(encrypted, passphrase) {
-  // TODO
+async function decrypt(cipherText, passphrase) {
+  const cipher = Uint8Array.from(atob(cipherText), (c) => c.charCodeAt(0));
+
+  const iv = cipher.slice(0, IV_LEN);
+  const salt = cipher.slice(IV_LEN, IV_LEN + SALT_LEN);
+  const encrypted = cipher.slice(IV_LEN + SALT_LEN);
+
+  const keyMaterial = await window.crypto.subtle.importKey(
+      "raw",
+      enc.encode(passphrase),
+      "PBKDF2",
+      false,
+      ["deriveBits", "deriveKey"]
+  );
+
+  const key = await window.crypto.subtle.deriveKey(
+      {
+        name: "PBKDF2",
+        salt: salt,
+        iterations: 100000,
+        hash: "SHA-256",
+      },
+      keyMaterial,
+      { name: "AES-CBC", length: 256 },
+      true,
+      ["encrypt", "decrypt"]
+  );
+
+  const decrypted = await window.crypto.subtle.decrypt(
+      {
+        name: "AES-CBC",
+        iv: iv,
+      },
+      key,
+      encrypted
+  );
+
+   return dec.decode(decrypted);
 }
 
 function getExpiryInSeconds(expiry, expiryUnit) {
