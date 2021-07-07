@@ -1,4 +1,5 @@
-Developer set up:
+## Developer set up
+
 1. Install Node.js and Firebase CLI [link](https://firebase.google.com/docs/functions/get-started#set-up-node.js-and-the-firebase-cli)
 2. Clone this repo locally
 3. In terminal, navigate into the repo's directory
@@ -9,7 +10,7 @@ Developer set up:
 5. Replace the contents of your local firebase.json with that from the repo.
 6. Updates to UI in `public` or serverless functions in `functions` can be tested locally through the emulator `firebase emulators:start`
 
-Running UI:
+#### Running UI:
 1. Navigate to `util` and install dependencies `npm install`
 2. Run UI proxy `npm run ui-proxy`
 3. Open html webpage in `public`
