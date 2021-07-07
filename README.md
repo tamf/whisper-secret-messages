@@ -39,10 +39,10 @@ This project is licensed under the [GNU General Public License v3.0](LICENSE.md)
 
 Originally created by Fabian Tam and Steven Wong.
 
-Fabian Tam<br>
+**Fabian Tam**<br>
 Software Engineer<br>
 [fabiantam.com](https://fabiantam.com)
 
-Steven Wong<br>
+**Steven Wong**<br>
 UBC Computer Science Student<br>
 [steven-s-website.web.app](https://steven-s-website.web.app)
