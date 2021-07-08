@@ -18,7 +18,7 @@ About placeholder
 - Google Firebase
 - Google Firestore
 - Google Cloud Functions
-- \<front end technologies>
+- Bootstrap 5
 
 ### Developer setup
 
@@ -38,4 +38,4 @@ Software Engineer<br>
 
 **Steven Wong**<br>
 UBC Computer Science Student<br>
-[steven-s-website.web.app](https://steven-s-website.web.app)
+[https://twitter.com/swongggg](https://twitter.com/swongggg)
