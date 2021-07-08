@@ -22,13 +22,15 @@ The text information is shared using end-to-end encryption. Encryption and decry
 There are several additional security measures:
 - link expiry: specify time duration after which the secret can no longer be viewed
 - link accesses: specify number of accesses after which the secret can no longer be viewed
-- custom passphrase: the link recipient must possess the passphrase used to encrypt the text information
+- custom passphrase: the link recipient must possess the passphrase to access the secret
 
 These measures help protect against the case where the link is intercepted and/or the case when the link is shared using a medium that does not use forward secrecy.
 
 #### Encryption
 
 We use the [Web Crypto API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Crypto_API) in the user's browser to do [AES](https://en.wikipedia.org/wiki/Advanced_Encryption_Standard)-CBC 256-bit encryption, and [PBKDF2](https://en.wikipedia.org/wiki/PBKDF2) SHA-256 to derive the encryption key for the user's data. The salt and initialization vector used for encryption/key derivation are randomly generated every time. We use 100,000 iterations with PBKDF2 for key derivation.
+
+If a custom passphrase is provided, it will be used for encryption and the recipient must enter the same passphrase to decrypt the secret. Otherwise, a randomly generated passphrase will be used.
 
 #### Backend
 
