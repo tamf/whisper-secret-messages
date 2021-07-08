@@ -13,6 +13,8 @@ https://secret-messages-7749d.web.app/
 
 ### About the project
 
+![Screenshot](docs/img/screenshot.png)
+
 Using [the website](https://secret-messages-7749d.web.app/), users can enter and store text information, and receive a link to share this information securely. Only those with the link can access the information. We use end-to-end encryption -- both encryption and decryption is performed on the client, and the passphrase used for encryption is never sent to the server.
 
 #### Security
