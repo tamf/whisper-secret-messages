@@ -13,7 +13,7 @@ https://secret-messages-7749d.web.app/
 
 ### About the project
 
-![Screenshot](docs/img/screenshot.png)
+<img src="docs/img/screenshot.png" alt="Screenshot" width="600"/>
 
 Using [the website](https://secret-messages-7749d.web.app/), users can enter and store text information, and receive a link to share this information securely. Only those with the link can access the information. We use end-to-end encryption -- both encryption and decryption is performed on the client, and the passphrase used for encryption is never sent to the server.
 
@@ -30,7 +30,7 @@ These measures help protect against the case where the link is intercepted and/o
 
 #### Encryption
 
-We use the [Web Crypto API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Crypto_API) in the user's browser to do [AES](https://en.wikipedia.org/wiki/Advanced_Encryption_Standard)-CBC 256-bit encryption, and [PBKDF2](https://en.wikipedia.org/wiki/PBKDF2) SHA-256 to derive the encryption key for the user's data. The salt and initialization vector used for encryption/key derivation are randomly generated every time. We use 100,000 iterations with PBKDF2 for key derivation.
+We use the [Web Crypto API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Crypto_API) in the user's browser to do [AES](https://en.wikipedia.org/wiki/Advanced_Encryption_Standard)-CBC 256-bit encryption, and [PBKDF2](https://en.wikipedia.org/wiki/PBKDF2) SHA-256 to derive the encryption key for the user's data. The salt and initialization vector (IV) used for encryption/key derivation are randomly generated every time. We use 100,000 iterations with PBKDF2 for key derivation.
 
 If a custom passphrase is provided, it will be used for encryption and the recipient must enter the same passphrase to decrypt the secret. Otherwise, a randomly generated passphrase will be used.
 
