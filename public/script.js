@@ -294,10 +294,10 @@ function copyToClipBoard() {
   navigator.clipboard
     .writeText(text)
     .then(() => {
-      alert("Copied!");
+     console.log("copied!")
     })
     .catch((error) => {
-      alert("Copy failed!");
+      console.log("Copy failed!");
     });
 }
 
