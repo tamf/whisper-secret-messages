@@ -89,6 +89,7 @@ async function createSecret(
     .then((response) => response.text())
     .then(function (result) {
       console.log(result);
+      document.getElementById("loading").style.visibility = "hidden";
       createShareableLink(result, encrypted.passphrase);
       return result;
     })
