@@ -291,14 +291,9 @@ function clearDataOnClick() {
 function copyToClipBoard() {
   let text = document.getElementById("modal-paragraph").firstChild.data;
   console.log(text);
-  navigator.clipboard
-    .writeText(text)
-    .then(() => {
-     console.log("copied!")
-    })
-    .catch((error) => {
-      console.log("Copy failed!");
-    });
+  navigator.clipboard.writeText(text).then(() => {
+    toastr.success('Your link has been copied.', '', {timeOut: 1000})
+  });
 }
 
 function displayShareableLink(url) {
