@@ -112,9 +112,10 @@ function handleRetrieveSubmit(event) {
     .then((decrypted) => {
       console.log(decrypted);
       document.getElementById("secret-message-box").innerHTML = decrypted;
+      toastr.success("Secret has been successfully retrieved", "", {timeOut: 1000});
     })
     .catch(() => {
-      toastr.error("invalid url", "", { timeOut: 1000 });
+      toastr.error("Invalid url", "", { timeOut: 1000 });
     });
 }
 
