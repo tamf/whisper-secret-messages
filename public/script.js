@@ -125,6 +125,7 @@ function createShareableLink(json, passphrase) {
 
 function buildFetchUrl(id, passphrase) {
   return (
+    // "https://" +
     fqdn +
     "/retrieve-secret?id=" +
     encodeURIComponent(id) +
