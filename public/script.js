@@ -111,6 +111,9 @@ function handleRetrieveSubmit(event) {
     .then((decrypted) => {
       console.log(decrypted);
       document.getElementById("secret-message-box").innerHTML = decrypted;
+    })
+    .catch(() => {
+      toastr.error("invalid url", "", { timeOut: 1000 });
     });
 }
 
@@ -292,7 +295,7 @@ function copyToClipBoard() {
   let text = document.getElementById("modal-paragraph").firstChild.data;
   console.log(text);
   navigator.clipboard.writeText(text).then(() => {
-    toastr.success('Your link has been copied.', '', {timeOut: 1000})
+    toastr.success("Your link has been copied.", "", { timeOut: 1000 });
   });
 }
 
