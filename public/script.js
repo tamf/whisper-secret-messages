@@ -1,5 +1,8 @@
 var formdata = new FormData();
 
+const span = document.getElementsByClassName("close")[0];
+const fqdn = window.location.host;
+
 const DEFAULT_EXPIRY = 60 * 60; // one hour
 const PASSPHRASE_CHARSET =
   "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz~!@#$%^&*()?";
@@ -13,6 +16,7 @@ const dec = new TextDecoder();
 const url = new URL(window.location.href);
 const secretIdBox = document.getElementById("secretid");
 const passphraseBox = document.getElementById("passphrase");
+document.getElementById("loading").style.visibility = "hidden";
 
 if (secretIdBox && url.searchParams.get("id")) {
   secretIdBox.value = url.searchParams.get("id");
@@ -34,16 +38,19 @@ if (retrieveSecretForm) {
   retrieveSecretForm.addEventListener("submit", handleRetrieveSubmit);
 }
 
-const copy = document.getElementById("copy-button");
-
-if (copy) {
-  copy.addEventListener("click", copyToClipBoard);
+const copyLink = document.getElementById("copy-button-link");
+if (copyLink) {
+copyLink.addEventListener("click", copyLinkToClipBoard);
 }
 
-const span = document.getElementsByClassName("close")[0];
-const fqdn = window.location.host;
+const copySecret = document.getElementById("copy-button-secret");
+if (copySecret) {
+copySecret.addEventListener("click", copySecretToClipBoard);
+}
+
 
 function handleFormSubmit(event) {
+  document.getElementById("loading").style.visibility = "visible";
   event.preventDefault();
   const form = event.currentTarget;
   const formData = Object.fromEntries(new FormData(form).entries());
@@ -89,15 +96,18 @@ async function createSecret(
     .then((response) => response.text())
     .then(function (result) {
       console.log(result);
+      document.getElementById("loading").style.visibility = "hidden";
       createShareableLink(result, encrypted.passphrase);
       return result;
     })
     .catch(function (error) {
+      document.getElementById("loading").style.visibility = "hidden";
       console.log("error", error);
     });
 }
 
 function handleRetrieveSubmit(event) {
+  document.getElementById("loading").style.visibility = "visible";
   event.preventDefault();
   const form = event.currentTarget;
   const formData = Object.fromEntries(new FormData(form).entries());
@@ -110,10 +120,15 @@ function handleRetrieveSubmit(event) {
     })
     .then((decrypted) => {
       console.log(decrypted);
+      document.getElementById("loading").style.visibility = "hidden";
       document.getElementById("secret-message-box").innerHTML = decrypted;
+      toastr.success("Secret has been successfully retrieved", "", {
+        timeOut: 1500 ,
+      });
     })
     .catch(() => {
-      toastr.error("invalid url", "", { timeOut: 1000 });
+      document.getElementById("loading").style.visibility = "hidden";
+      toastr.error("Invalid url", "", { timeOut: 1500  });
     });
 }
 
@@ -292,11 +307,18 @@ function clearDataOnClick() {
   }
 }
 
-function copyToClipBoard() {
+function copyLinkToClipBoard() {
   let text = document.getElementById("modal-paragraph").firstChild.data;
   console.log(text);
   navigator.clipboard.writeText(text).then(() => {
-    toastr.success("Your link has been copied.", "", { timeOut: 1000 });
+    toastr.success("Your link has been copied.", "", { timeOut: 1500  });
+  });
+}
+
+function copySecretToClipBoard() {
+  let text = document.getElementById("secret-message-box").firstChild.data;
+  navigator.clipboard.writeText(text).then(() => {
+    toastr.success("The content in the secret message box has been copied.", "", { timeOut: 1500 });
   });
 }
 

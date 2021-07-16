@@ -18,6 +18,7 @@
         to avoid connecting the SDK to running emulators.
       -->
   <script defer src="/__/firebase/init.js?useEmulator=true"></script>
+  <title>Whisper</title>
 </head>
 
 <body>
@@ -85,16 +86,17 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h3 class="modal-title">Shareable Link</h5>
+          <h4 class="display-4">Shareable Link</h5>
+          <div id="loading" class="lds-ring"><div></div><div></div><div></div><div></div></div>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <!-- Modal content -->
         <div class="modal-content">
-          <p class="small-font" id="modal-paragraph">Loading ...</p>
+          <p class="small-font" id="modal-paragraph"></p>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-outline-info" data-bs-dismiss="modal">Close</button>
-          <button id="copy-button" type="button" class="btn btn-success">Copy link</button>
+          <button id="copy-button-link" type="button" class="btn btn-success">Copy link</button>
         </div>
       </div>
     </div>
