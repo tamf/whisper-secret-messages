@@ -13,6 +13,7 @@ const dec = new TextDecoder();
 const url = new URL(window.location.href);
 const secretIdBox = document.getElementById("secretid");
 const passphraseBox = document.getElementById("passphrase");
+document.getElementById("loading").style.visibility = "hidden";
 
 if (secretIdBox && url.searchParams.get("id")) {
   secretIdBox.value = url.searchParams.get("id");
@@ -44,6 +45,7 @@ const span = document.getElementsByClassName("close")[0];
 const fqdn = window.location.host;
 
 function handleFormSubmit(event) {
+  document.getElementById("loading").style.visibility = "visible";
   event.preventDefault();
   const form = event.currentTarget;
   const formData = Object.fromEntries(new FormData(form).entries());
@@ -94,11 +96,13 @@ async function createSecret(
       return result;
     })
     .catch(function (error) {
+      document.getElementById("loading").style.visibility = "hidden";
       console.log("error", error);
     });
 }
 
 function handleRetrieveSubmit(event) {
+  document.getElementById("loading").style.visibility = "visible";
   event.preventDefault();
   const form = event.currentTarget;
   const formData = Object.fromEntries(new FormData(form).entries());
@@ -111,10 +115,14 @@ function handleRetrieveSubmit(event) {
     })
     .then((decrypted) => {
       console.log(decrypted);
+      document.getElementById("loading").style.visibility = "hidden";
       document.getElementById("secret-message-box").innerHTML = decrypted;
-      toastr.success("Secret has been successfully retrieved", "", {timeOut: 1000});
+      toastr.success("Secret has been successfully retrieved", "", {
+        timeOut: 1000,
+      });
     })
     .catch(() => {
+      document.getElementById("loading").style.visibility = "hidden";
       toastr.error("Invalid url", "", { timeOut: 1000 });
     });
 }
