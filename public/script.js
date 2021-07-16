@@ -5,8 +5,8 @@ const fqdn = window.location.host;
 
 const DEFAULT_EXPIRY = 60 * 60; // one hour
 const PASSPHRASE_CHARSET =
-  "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz~!@#$%^&*()?";
-const PASSPHRASE_LEN = 64;
+  "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz@#$%^&?";
+const PASSPHRASE_LEN = 40;
 const SALT_LEN = 16;
 const IV_LEN = 16;
 
