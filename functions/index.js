@@ -63,7 +63,8 @@ exports.fetch = functions.https.onRequest(async (req, res) => {
 		return res.sendStatus(400);
 	}
 
-	const secret = await admin.firestore().collection('messages').doc(id).get();
+	const doc = admin.firestore().collection('messages').doc(id);
+	const secret = await doc.get();
 
 	if (!secret || !secret.exists) {
 		return res.sendStatus(404);
@@ -73,6 +74,7 @@ exports.fetch = functions.https.onRequest(async (req, res) => {
 	const isExpired = (Date.now() / 1000) > data.expiryTime;
 
 	if (data.accessesLeft <= 0 || isExpired) {
+		doc.delete();
 		return res.sendStatus(404);
 	}
 
@@ -95,15 +97,21 @@ exports.deleteExpiredMessages = functions.https.onRequest(async (req, res) => {
     return res.sendStatus(405);
   }
 
-  const msgs = admin.firestore().collection('messages');
-  const noAccessesLeft = msgs.where('accessesLeft', '<=', 0).limit(BATCH_SIZE_LIMIT);
-  const timeExpired = msgs.where('expiryTime', '<', Date.now() / 1000).limit(BATCH_SIZE_LIMIT);
-  
-  await deleteQueryBatch(noAccessesLeft);
-  await deleteQueryBatch(timeExpired);
+  await _deleteExpiredMessages();
 
   res.json({result: "ok"});
 });
+
+async function _deleteExpiredMessages() {
+  const msgs = admin.firestore().collection('messages');
+  const noAccessesLeft = msgs.where('accessesLeft', '<=', 0).limit(BATCH_SIZE_LIMIT);
+  const timeExpired = msgs.where('expiryTime', '<', Date.now() / 1000).limit(BATCH_SIZE_LIMIT);
+
+  return Promise.all([
+  	deleteQueryBatch(noAccessesLeft), 
+  	deleteQueryBatch(timeExpired)
+  	]);
+};
 
 
 async function deleteQueryBatch(query) {
