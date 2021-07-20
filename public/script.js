@@ -54,8 +54,6 @@ function handleFormSubmit(event) {
   const form = event.currentTarget;
   const formData = Object.fromEntries(new FormData(form).entries());
 
-  clearDataOnClick();
-
   createSecret(
     formData.secret,
     formData.limit,
@@ -72,6 +70,7 @@ async function createSecret(
   expiryUnit,
   passphrase
 ) {
+  clearDataOnClick();
   const encrypted = await encrypt(secret, passphrase);
   const expiresInSeconds = getExpiryInSeconds(expiresIn, expiryUnit);
 
@@ -95,12 +94,10 @@ async function createSecret(
     .then((response) => response.text())
     .then(function (result) {
       console.log(result);
-      document.getElementById("loading").style.visibility = "hidden";
       createShareableLink(result, encrypted.passphrase);
       return result;
     })
     .catch(function (error) {
-      document.getElementById("loading").style.visibility = "hidden";
       console.log("error", error);
     });
 }
@@ -111,14 +108,11 @@ function handleRetrieveSubmit(event) {
   const form = event.currentTarget;
   const formData = Object.fromEntries(new FormData(form).entries());
 
-
   fetchSecret(formData.secretid)
     .then((result) => {
       return decrypt(result.secret, formData.passphrase);
     })
     .then((decrypted) => {
-      console.log(decrypted);
-      document.getElementById("loading").style.visibility = "hidden";
       clearDataOnClick();
       document.getElementById("secretid").value="";
       document.getElementById("secret-message-box").innerHTML = decrypted;
@@ -126,8 +120,7 @@ function handleRetrieveSubmit(event) {
         timeOut: 1500,
       });
     })
-    .catch(() => {
-      document.getElementById("loading").style.visibility = "hidden";
+    .catch((err) => {
       clearDataOnClick();
       toastr.error("Invalid", "", { timeOut: 1500 });
     });
@@ -160,6 +153,8 @@ function fetchSecret(id) {
     .then(function (data) {
       console.log(data);
       return data;
+    }).catch((err) => {
+      console.log(err);
     });
 }
 
@@ -281,9 +276,9 @@ function getExpiryInSeconds(expiry, expiryUnit) {
 }
 
 function clearDataOnClick() {
+  document.getElementById("loading").style.visibility = "hidden";
   let secret = document.getElementById("secret");
   let passphrase = document.getElementById("passphrase");
-  // let secretid = document.getElementById("secretid");
   let limit = document.getElementById("limit");
   let expiresIn = document.getElementById("expiresIn");
 
@@ -294,10 +289,6 @@ function clearDataOnClick() {
   if (passphrase) {
     passphrase.value = "";
   }
-
-  // if (secretid) {
-  //   secretid.value = "";
-  // }
 
   if (limit) {
     limit.value = null;
