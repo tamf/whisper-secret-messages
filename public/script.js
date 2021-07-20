@@ -5,7 +5,7 @@ const fqdn = window.location.host;
 
 const DEFAULT_EXPIRY = 60 * 60; // one hour
 const PASSPHRASE_CHARSET =
-"0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz@#$%^&?";
+  "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz@#$%^&?";
 const PASSPHRASE_LEN = 40;
 const SALT_LEN = 16;
 const IV_LEN = 16;
@@ -70,7 +70,6 @@ async function createSecret(
   expiryUnit,
   passphrase
 ) {
-  clearDataOnClick();
   const encrypted = await encrypt(secret, passphrase);
   const expiresInSeconds = getExpiryInSeconds(expiresIn, expiryUnit);
 
@@ -93,11 +92,13 @@ async function createSecret(
   return fetch("/create", options)
     .then((response) => response.text())
     .then(function (result) {
+      clearDataOnClick();
       console.log(result);
       createShareableLink(result, encrypted.passphrase);
       return result;
     })
     .catch(function (error) {
+      clearDataOnClick();
       console.log("error", error);
     });
 }
@@ -114,7 +115,7 @@ function handleRetrieveSubmit(event) {
     })
     .then((decrypted) => {
       clearDataOnClick();
-      document.getElementById("secretid").value="";
+      document.getElementById("secretid").value = "";
       document.getElementById("secret-message-box").innerHTML = decrypted;
       toastr.success("Secret has been successfully retrieved", "", {
         timeOut: 1500,
@@ -153,7 +154,8 @@ function fetchSecret(id) {
     .then(function (data) {
       console.log(data);
       return data;
-    }).catch((err) => {
+    })
+    .catch((err) => {
       console.log(err);
     });
 }
