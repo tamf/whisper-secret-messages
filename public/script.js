@@ -5,7 +5,7 @@ const fqdn = window.location.host;
 
 const DEFAULT_EXPIRY = 60 * 60; // one hour
 const PASSPHRASE_CHARSET =
-  "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz@#$%^&?";
+"0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz@#$%^&?";
 const PASSPHRASE_LEN = 40;
 const SALT_LEN = 16;
 const IV_LEN = 16;
@@ -40,22 +40,19 @@ if (retrieveSecretForm) {
 
 const copyLink = document.getElementById("copy-button-link");
 if (copyLink) {
-copyLink.addEventListener("click", copyLinkToClipBoard);
+  copyLink.addEventListener("click", copyLinkToClipBoard);
 }
 
 const copySecret = document.getElementById("copy-button-secret");
 if (copySecret) {
-copySecret.addEventListener("click", copySecretToClipBoard);
+  copySecret.addEventListener("click", copySecretToClipBoard);
 }
-
 
 function handleFormSubmit(event) {
   document.getElementById("loading").style.visibility = "visible";
   event.preventDefault();
   const form = event.currentTarget;
   const formData = Object.fromEntries(new FormData(form).entries());
-
-  clearDataOnClick();
 
   createSecret(
     formData.secret,
@@ -73,6 +70,7 @@ async function createSecret(
   expiryUnit,
   passphrase
 ) {
+  clearDataOnClick();
   const encrypted = await encrypt(secret, passphrase);
   const expiresInSeconds = getExpiryInSeconds(expiresIn, expiryUnit);
 
@@ -96,12 +94,10 @@ async function createSecret(
     .then((response) => response.text())
     .then(function (result) {
       console.log(result);
-      document.getElementById("loading").style.visibility = "hidden";
       createShareableLink(result, encrypted.passphrase);
       return result;
     })
     .catch(function (error) {
-      document.getElementById("loading").style.visibility = "hidden";
       console.log("error", error);
     });
 }
@@ -112,23 +108,21 @@ function handleRetrieveSubmit(event) {
   const form = event.currentTarget;
   const formData = Object.fromEntries(new FormData(form).entries());
 
-  clearDataOnClick();
-
   fetchSecret(formData.secretid)
     .then((result) => {
       return decrypt(result.secret, formData.passphrase);
     })
     .then((decrypted) => {
-      console.log(decrypted);
-      document.getElementById("loading").style.visibility = "hidden";
+      clearDataOnClick();
+      document.getElementById("secretid").value="";
       document.getElementById("secret-message-box").innerHTML = decrypted;
       toastr.success("Secret has been successfully retrieved", "", {
-        timeOut: 1500 ,
+        timeOut: 1500,
       });
     })
-    .catch(() => {
-      document.getElementById("loading").style.visibility = "hidden";
-      toastr.error("Invalid url", "", { timeOut: 1500  });
+    .catch((err) => {
+      clearDataOnClick();
+      toastr.error("Invalid", "", { timeOut: 1500 });
     });
 }
 
@@ -159,6 +153,8 @@ function fetchSecret(id) {
     .then(function (data) {
       console.log(data);
       return data;
+    }).catch((err) => {
+      console.log(err);
     });
 }
 
@@ -280,9 +276,9 @@ function getExpiryInSeconds(expiry, expiryUnit) {
 }
 
 function clearDataOnClick() {
+  document.getElementById("loading").style.visibility = "hidden";
   let secret = document.getElementById("secret");
   let passphrase = document.getElementById("passphrase");
-  let secretid = document.getElementById("secretid");
   let limit = document.getElementById("limit");
   let expiresIn = document.getElementById("expiresIn");
 
@@ -292,10 +288,6 @@ function clearDataOnClick() {
 
   if (passphrase) {
     passphrase.value = "";
-  }
-
-  if (secretid) {
-    secretid.value = "";
   }
 
   if (limit) {
@@ -311,14 +303,18 @@ function copyLinkToClipBoard() {
   let text = document.getElementById("modal-paragraph").firstChild.data;
   console.log(text);
   navigator.clipboard.writeText(text).then(() => {
-    toastr.success("Your link has been copied.", "", { timeOut: 1500  });
+    toastr.success("Your link has been copied.", "", { timeOut: 1500 });
   });
 }
 
 function copySecretToClipBoard() {
   let text = document.getElementById("secret-message-box").firstChild.data;
   navigator.clipboard.writeText(text).then(() => {
-    toastr.success("The content in the secret message box has been copied.", "", { timeOut: 1500 });
+    toastr.success(
+      "The content in the secret message box has been copied.",
+      "",
+      { timeOut: 1500 }
+    );
   });
 }
 
