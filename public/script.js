@@ -5,7 +5,7 @@ const fqdn = window.location.host;
 
 const DEFAULT_EXPIRY = 60 * 60; // one hour
 const PASSPHRASE_CHARSET =
-  "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz@#$%^&?";
+"0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz@#$%^&?";
 const PASSPHRASE_LEN = 40;
 const SALT_LEN = 16;
 const IV_LEN = 16;
@@ -40,14 +40,13 @@ if (retrieveSecretForm) {
 
 const copyLink = document.getElementById("copy-button-link");
 if (copyLink) {
-copyLink.addEventListener("click", copyLinkToClipBoard);
+  copyLink.addEventListener("click", copyLinkToClipBoard);
 }
 
 const copySecret = document.getElementById("copy-button-secret");
 if (copySecret) {
-copySecret.addEventListener("click", copySecretToClipBoard);
+  copySecret.addEventListener("click", copySecretToClipBoard);
 }
-
 
 function handleFormSubmit(event) {
   document.getElementById("loading").style.visibility = "visible";
@@ -112,7 +111,6 @@ function handleRetrieveSubmit(event) {
   const form = event.currentTarget;
   const formData = Object.fromEntries(new FormData(form).entries());
 
-  clearDataOnClick();
 
   fetchSecret(formData.secretid)
     .then((result) => {
@@ -121,14 +119,17 @@ function handleRetrieveSubmit(event) {
     .then((decrypted) => {
       console.log(decrypted);
       document.getElementById("loading").style.visibility = "hidden";
+      clearDataOnClick();
+      document.getElementById("secretid").value="";
       document.getElementById("secret-message-box").innerHTML = decrypted;
       toastr.success("Secret has been successfully retrieved", "", {
-        timeOut: 1500 ,
+        timeOut: 1500,
       });
     })
     .catch(() => {
       document.getElementById("loading").style.visibility = "hidden";
-      toastr.error("Invalid url", "", { timeOut: 1500  });
+      clearDataOnClick();
+      toastr.error("Invalid", "", { timeOut: 1500 });
     });
 }
 
@@ -282,7 +283,7 @@ function getExpiryInSeconds(expiry, expiryUnit) {
 function clearDataOnClick() {
   let secret = document.getElementById("secret");
   let passphrase = document.getElementById("passphrase");
-  let secretid = document.getElementById("secretid");
+  // let secretid = document.getElementById("secretid");
   let limit = document.getElementById("limit");
   let expiresIn = document.getElementById("expiresIn");
 
@@ -294,9 +295,9 @@ function clearDataOnClick() {
     passphrase.value = "";
   }
 
-  if (secretid) {
-    secretid.value = "";
-  }
+  // if (secretid) {
+  //   secretid.value = "";
+  // }
 
   if (limit) {
     limit.value = null;
@@ -311,14 +312,18 @@ function copyLinkToClipBoard() {
   let text = document.getElementById("modal-paragraph").firstChild.data;
   console.log(text);
   navigator.clipboard.writeText(text).then(() => {
-    toastr.success("Your link has been copied.", "", { timeOut: 1500  });
+    toastr.success("Your link has been copied.", "", { timeOut: 1500 });
   });
 }
 
 function copySecretToClipBoard() {
   let text = document.getElementById("secret-message-box").firstChild.data;
   navigator.clipboard.writeText(text).then(() => {
-    toastr.success("The content in the secret message box has been copied.", "", { timeOut: 1500 });
+    toastr.success(
+      "The content in the secret message box has been copied.",
+      "",
+      { timeOut: 1500 }
+    );
   });
 }
 
