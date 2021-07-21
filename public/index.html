@@ -6,6 +6,8 @@
     integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
   <link rel="stylesheet" type="text/css" href="secret.css" media="screen" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css"
+    integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
@@ -45,6 +47,7 @@
     </div>
   </nav>
 
+
   <section class="bg-dark text-light p-5 text-center text-sm-start">
     <h1 class="display-3">Secret Messages</h1>
     <div class="d-flex">
@@ -57,15 +60,18 @@
 
           <label>
             <input class="form-control" placeholder="Passphrase" type="passphrase" id="passphrase" name="passphrase" />
+            <i id="tooltip" title="A passphrase will be randomly generated if this input is not provided" class="fa fa-question-circle" aria-hidden="true"></i>
           </label>
 
           <label>
             <input class="form-control" placeholder="Access Limit" min="0" type="number" id="limit" name="limit" />
+            <i id="tooltip" title="The access limit will be set to the default value of five times if this input is not provided" class="fa fa-question-circle" aria-hidden="true"></i>
           </label>
 
           <label>
             <input class="form-control" placeholder="Time Expiry" id="expiresIn" name="expiresIn" min="0"
               type="number" />
+            <i id="tooltip" title="The time expiry will be set to the default value of one hour if this input is not provided" class="fa fa-question-circle" aria-hidden="true"></i>
           </label>
 
           <select class="form-select" size="3" style="width:auto" aria-label="size 3 select example" name="expiryUnit">
@@ -86,9 +92,14 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h4 class="display-4">Shareable Link</h5>
-          <div id="loading" class="lds-ring"><div></div><div></div><div></div><div></div></div>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          <h4 class="display-4">Shareable Link</h4>
+            <div id="loading" class="lds-ring">
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+            </div>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <!-- Modal content -->
         <div class="modal-content">
