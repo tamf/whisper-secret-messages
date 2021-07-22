@@ -122,8 +122,15 @@ function handleRetrieveSubmit(event) {
       });
     })
     .catch((err) => {
-      clearDataOnClick();
-      toastr.error("Invalid", "", { timeOut: 1500 });
+      if (err instanceof DOMException) {
+        console.log(err);
+        clearDataOnClick();
+        toastr.error("Incorrect passphrase", "", { timeOut: 1500 });
+      } else {
+        clearDataOnClick();
+        document.getElementById("secretid").value = "";
+        toastr.error("Invalid url", "", { timeOut: 1500 });
+      }
     });
 }
 
@@ -154,9 +161,6 @@ function fetchSecret(id) {
     .then(function (data) {
       console.log(data);
       return data;
-    })
-    .catch((err) => {
-      console.log(err);
     });
 }
 
