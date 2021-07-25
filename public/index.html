@@ -129,14 +129,9 @@
           </h2>
           <div id="question-one" class="accordion-collapse collapse" data-bs-parent="#questions">
             <div class="accordion-body">
-              <p>On the <i>Secret Messages</i> page, enter your message into the text box.</p>
-              <p>You may also choose to specify additional pieces of information: (1) the passphrase, which is used for
-                decrypting the message, (2) the access limit, which specifies the number of times your message can be
-                retrieved before it is deleted from the database, and (3) the time expiry. Please note that if the
-                optional information is not provided, the program will use the default values as inputs. The default for
-                access limit is five times and the default for time expiry is one hour. If a passphrase is not provided,
-                it will be randomly generated.</p>
-
+              <p>Enter the message you want to share into the text box and hit send. You'll get a link to share your secret with others.</p>
+              <p>You may also choose to specify additional pieces of information. If you enter a passphrase, your recipient(s) will need to enter it to access the message. The access limit specifies the maximum number of times your message can be retrieved and defaults to five times. The time expiry is the duration of time your message can be accessed and defaults to one hour.
+              </p>
             </div>
           </div>
         </div>
@@ -150,16 +145,10 @@
           </h2>
           <div id="question-two" class="accordion-collapse collapse" data-bs-parent="#questions">
             <div class="accordion-body">
-              <p>After clicking send, your message will first be encrypted before it is stored into our Cloud Firestore
-                database. A link which you can share with your friends will then be generated so they can access your
+              <p>Upon clicking send, your message will be encrypted in the client using your passphrase if given (or a randomly generated one) before it is stored into our database. A link which you can share with your friends will then be generated so they can access your
                 secret!
               </p>
-              <p>Once the receiving user accesses the shareable link, they will be redirected to the <i>Retrieve
-                  Secret</i> page. The required information will auto-fill so all they need to do is click the retrieve
-                button to access your message. However, if a passphrase was provided in step 1, the receiving user will
-                also need to manually input it
-                into the passphrase box.</p>
-
+              <p>Once the recipient accesses the shareable link, the encrypted secret will be retrieved from the database if it has not expired. Then it will be decrypted and displayed to the recipient.</p>
             </div>
           </div>
         </div>
@@ -179,15 +168,13 @@
               <p>(1) We first create a password based key using PBKDF2, a key derivation function that applies hash
                 functions to the inputted passphrase to derive a secret key. This key will be used to derive our
                 encryption key for encryption and decryption.</p>
-              <p>(2) We use the above-derived key as input to generate the AES-GCM encryption key. In this stage, we
-                also specify the salt, the initialization vector (iv), the hash algorithm we will use on the PBKDF2 key
-                (we will be using SHA-256), and the number of iterations in which the hash algorithm will be applied to
-                the PBKDF2 key. A salt is randomly generated data that gets appended to the PBKDF2 key, before the hash
-                algorithm is applied, to add an additional layer of security. The iv is randomly generated data that is
+              <p>(2) We use the above-derived key as input to generate the AES-CBC encryption key. Additionally, we
+                use a randomly generated salt and initialization vector (iv). We use the SHA-256 hash algorithm used on the PBKDF2 key with 100,000 rounds.
+                The salt is data that is appended to the PBKDF2 key before the hash
+                algorithm is applied, to add an additional layer of security. The iv is
                 used to prevent repetition in data encryption.
               </p>
-              <p>(3) Finally, the AES-GCM key is used to encrypt your message. You can think of encryption as the
-                act of scrambling the contents of your message.
+              <p>(3) Finally, the AES-CBC key is used to encrypt your message.
               </p>
             </div>
           </div>
@@ -202,12 +189,9 @@
           </h2>
           <div id="question-four" class="accordion-collapse collapse" data-bs-parent="#questions">
             <div class="accordion-body">
-              Your secret message is encrypted before it is stored into our database so even if a hacker had full access
-              to our database,
-              they would not be able to decipher the messages. Furthermore, the passphrase entered in step 1 is used for
-              decrypting the secret message. Therefore, even if
-              someone intercepts the generated link, they would not be able to decrypt the secret message unless they
-              also possessed the passphrase.
+              Your message is encrypted before it is stored into our database. The passphrase used for encryption/decryption is never stored or logged on our servers. Therefore, even if someone had access to our database they would not be able to decipher any messages, unless a weak passphrase were used.
+
+              If someone intercepts the generated link, they would be able to access the secret. In order to mitigate this, you may use a custom passphrase. Only recipients who enter the same passphrase may access the secret.
             </div>
           </div>
         </div>
@@ -216,12 +200,13 @@
           <h2 class="accordion-header">
             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
               data-bs-target="#question-five">
-              Source code
+              Do you have any source code?
             </button>
           </h2>
           <div id="question-five" class="accordion-collapse collapse" data-bs-parent="#questions">
             <div class="accordion-body">
-              https://github.com/tamf/whisper-secret-messages
+              Yes.<br>
+              <a href="https://github.com/tamf/whisper-secret-messages">https://github.com/tamf/whisper-secret-messages</a>
             </div>
           </div>
         </div>
