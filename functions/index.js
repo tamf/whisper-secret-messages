@@ -2,9 +2,9 @@ const functions = require('firebase-functions');
 const admin = require('firebase-admin');
 admin.initializeApp();
 
-const DEFAULT_LIMIT = 5
-const DEFAULT_EXPIRY = 60*60;
-const MAX_EXPIRY = 30*24*60*60;
+const DEFAULT_LIMIT = null;
+const DEFAULT_EXPIRY = 60*60*24; // 1 day
+const MAX_EXPIRY = 30*24*60*60; // 30 days
 const DECREMENT = admin.firestore.FieldValue.increment(-1);
 const BATCH_SIZE_LIMIT = 100;
 
@@ -26,7 +26,7 @@ exports.create = functions.https.onRequest(async (req, res) => {
 	const expiresIn = Number(req.body.expiresIn) || DEFAULT_EXPIRY; // in seconds
 	
 	if (typeof secret !== "string" || 
-			limit <= 0 || 
+			(limit != null && limit < 1) || 
 			expiresIn <= 0 || 
 			expiresIn > MAX_EXPIRY) {
 		return res.sendStatus(400);
@@ -73,12 +73,14 @@ exports.fetch = functions.https.onRequest(async (req, res) => {
 	const data = secret.data();
 	const isExpired = (Date.now() / 1000) > data.expiryTime;
 
-	if (data.accessesLeft <= 0 || isExpired) {
+	if ((data.accessesLeft != null && data.accessesLeft <= 0) || isExpired) {
 		doc.delete();
 		return res.sendStatus(404);
 	}
 
-	decrementAccessesLeft(id);
+	if (data.accessesLeft != null) {
+		decrementAccessesLeft(id);
+	}
 
 	res.json({secret: secret.data().secret});
 });
