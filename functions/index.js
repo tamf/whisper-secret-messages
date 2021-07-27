@@ -3,7 +3,7 @@ const admin = require('firebase-admin');
 admin.initializeApp();
 
 const DEFAULT_LIMIT = 5
-const DEFAULT_EXPIRY = 60*60;
+const DEFAULT_EXPIRY = 24*60*60;
 const MAX_EXPIRY = 30*24*60*60;
 const DECREMENT = admin.firestore.FieldValue.increment(-1);
 const BATCH_SIZE_LIMIT = 100;
