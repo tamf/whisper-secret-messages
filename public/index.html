@@ -59,19 +59,28 @@
           </div>
 
           <label>
-            <input class="form-control" placeholder="Passphrase" type="passphrase" id="passphrase" name="passphrase" />
-            <i id="tooltip" title="A passphrase will be randomly generated if this input is not provided" class="fa fa-question-circle" aria-hidden="true"></i>
+            <input pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$"
+              title="Your passphrase must contain at least 8 characters, at least one digit, at least one special character, at least one lower case English letter and at least one upper case English letter."
+              class="form-control" placeholder="Passphrase" type="password" id="passphrase" name="passphrase"
+              minlength="8" />
+            <i id="tooltip" title="A passphrase will be randomly generated if this input is not provided"
+              class="fa fa-question-circle" aria-hidden="true"></i>
           </label>
+
 
           <label>
             <input class="form-control" placeholder="Access Limit" min="0" type="number" id="limit" name="limit" />
-            <i id="tooltip" title="The access limit will be set to the default value of five times if this input is not provided" class="fa fa-question-circle" aria-hidden="true"></i>
+            <i id="tooltip"
+              title="The access limit will be set to the default value of five times if this input is not provided"
+              class="fa fa-question-circle" aria-hidden="true"></i>
           </label>
 
           <label>
             <input class="form-control" placeholder="Time Expiry" id="expiresIn" name="expiresIn" min="0"
               type="number" />
-            <i id="tooltip" title="The time expiry will be set to the default value of one hour if this input is not provided" class="fa fa-question-circle" aria-hidden="true"></i>
+            <i id="tooltip"
+              title="The time expiry will be set to the default value of one hour if this input is not provided"
+              class="fa fa-question-circle" aria-hidden="true"></i>
           </label>
 
           <select class="form-select" size="3" style="width:auto" aria-label="size 3 select example" name="expiryUnit">
@@ -93,13 +102,13 @@
       <div class="modal-content">
         <div class="modal-header">
           <h4 class="display-4">Shareable Link</h4>
-            <div id="loading" class="lds-ring">
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-            </div>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          <div id="loading" class="lds-ring">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+          </div>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <!-- Modal content -->
         <div class="modal-content">
@@ -129,8 +138,12 @@
           </h2>
           <div id="question-one" class="accordion-collapse collapse" data-bs-parent="#questions">
             <div class="accordion-body">
-              <p>Enter the message you want to share into the text box and hit send. You'll get a link to share your secret with others.</p>
-              <p>You may also choose to specify additional pieces of information. If you enter a passphrase, your recipient(s) will need to enter it to access the message. The access limit specifies the maximum number of times your message can be retrieved and defaults to five times. The time expiry is the duration of time your message can be accessed and defaults to one hour.
+              <p>Enter the message you want to share into the text box and hit send. You'll get a link to share your
+                secret with others.</p>
+              <p>You may also choose to specify additional pieces of information. If you enter a passphrase, your
+                recipient(s) will need to enter it to access the message. The access limit specifies the maximum number
+                of times your message can be retrieved and defaults to five times. The time expiry is the duration of
+                time your message can be accessed and defaults to one hour.
               </p>
             </div>
           </div>
@@ -145,10 +158,13 @@
           </h2>
           <div id="question-two" class="accordion-collapse collapse" data-bs-parent="#questions">
             <div class="accordion-body">
-              <p>Upon clicking send, your message will be encrypted in the client using your passphrase if given (or a randomly generated one) before it is stored into our database. A link which you can share with your friends will then be generated so they can access your
+              <p>Upon clicking send, your message will be encrypted in the client using your passphrase if given (or a
+                randomly generated one) before it is stored into our database. A link which you can share with your
+                friends will then be generated so they can access your
                 secret!
               </p>
-              <p>Once the recipient accesses the shareable link, the encrypted secret will be retrieved from the database if it has not expired. Then it will be decrypted and displayed to the recipient.</p>
+              <p>Once the recipient accesses the shareable link, the encrypted secret will be retrieved from the
+                database if it has not expired. Then it will be decrypted and displayed to the recipient.</p>
             </div>
           </div>
         </div>
@@ -169,7 +185,8 @@
                 functions to the inputted passphrase to derive a secret key. This key will be used to derive our
                 encryption key for encryption and decryption.</p>
               <p>(2) We use the above-derived key as input to generate the AES-CBC encryption key. Additionally, we
-                use a randomly generated salt and initialization vector (iv). We use the SHA-256 hash algorithm used on the PBKDF2 key with 100,000 rounds.
+                use a randomly generated salt and initialization vector (iv). We use the SHA-256 hash algorithm used on
+                the PBKDF2 key with 100,000 rounds.
                 The salt is data that is appended to the PBKDF2 key before the hash
                 algorithm is applied, to add an additional layer of security. The iv is
                 used to prevent repetition in data encryption.
@@ -189,9 +206,13 @@
           </h2>
           <div id="question-four" class="accordion-collapse collapse" data-bs-parent="#questions">
             <div class="accordion-body">
-              Your message is encrypted before it is stored into our database. The passphrase used for encryption/decryption is never stored or logged on our servers. Therefore, even if someone had access to our database they would not be able to decipher any messages, unless a weak passphrase were used.
+              Your message is encrypted before it is stored into our database. The passphrase used for
+              encryption/decryption is never stored or logged on our servers. Therefore, even if someone had access to
+              our database they would not be able to decipher any messages, unless a weak passphrase were used.
 
-              If someone intercepts the generated link, they would be able to access the secret. In order to mitigate this, you may use a custom passphrase. Only recipients who enter the same passphrase may access the secret.
+              If someone intercepts the generated link, they would be able to access the secret. In order to mitigate
+              this, you may use a custom passphrase. Only recipients who enter the same passphrase may access the
+              secret.
             </div>
           </div>
         </div>
@@ -206,7 +227,8 @@
           <div id="question-five" class="accordion-collapse collapse" data-bs-parent="#questions">
             <div class="accordion-body">
               Yes.<br>
-              <a href="https://github.com/tamf/whisper-secret-messages">https://github.com/tamf/whisper-secret-messages</a>
+              <a
+                href="https://github.com/tamf/whisper-secret-messages">https://github.com/tamf/whisper-secret-messages</a>
             </div>
           </div>
         </div>
