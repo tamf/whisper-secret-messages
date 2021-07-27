@@ -18,6 +18,11 @@ const secretIdBox = document.getElementById("secretid");
 const passphraseBox = document.getElementById("passphrase");
 document.getElementById("loading").style.visibility = "hidden";
 
+let myModal;
+if (document.getElementById('myModal')) {
+  myModal = new bootstrap.Modal(document.getElementById('myModal'));
+}
+  
 if (secretIdBox && url.searchParams.get("id")) {
   secretIdBox.value = url.searchParams.get("id");
 }
@@ -37,7 +42,7 @@ const retrieveSecretForm = document.getElementById("retrieve-secret-form");
 if (retrieveSecretForm) {
   retrieveSecretForm.addEventListener("submit", handleRetrieveSubmit);
 }
-
+  
 const copyLink = document.getElementById("copy-button-link");
 if (copyLink) {
   copyLink.addEventListener("click", copyLinkToClipBoard);
@@ -50,9 +55,15 @@ if (copySecret) {
 
 function handleFormSubmit(event) {
   document.getElementById("loading").style.visibility = "visible";
+  myModal.show();
   event.preventDefault();
   const form = event.currentTarget;
   const formData = Object.fromEntries(new FormData(form).entries());
+  let regexRequirement = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+
+  if (formData.passphrase.length !== 0 && !regexRequirement.test(formData.passphrase)) {
+    return
+  }
 
   createSecret(
     formData.secret,

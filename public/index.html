@@ -10,10 +10,6 @@
     integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-
-  <!--script defer src="https://www.gstatic.com/firebasejs/8.6.1/firebase.js"></script-->
-  <!--script defer src="/__/firebase/8.6.1/firebase.js"></script>
-  <script defer src="/__/firebase/8.6.1/firebase-functions.js"></script-->
   <script defer src="script.js"></script>
   <!-- 
         initialize the SDK after all desired features are loaded, set useEmulator to false
@@ -79,7 +75,7 @@
             <input class="form-control" placeholder="Time Expiry" id="expiresIn" name="expiresIn" min="0"
               type="number" />
             <i id="tooltip"
-              title="The time expiry will be set to the default value of one hour if this input is not provided"
+              title="The time expiry will be set to the default value of one day if this input is not provided"
               class="fa fa-question-circle" aria-hidden="true"></i>
           </label>
 
@@ -90,7 +86,8 @@
           </select>
           <br>
           </br>
-          <button class="btn btn-outline-info" data-bs-toggle="modal" data-bs-target="#myModal">Send</button>
+          <!-- <button class="btn btn-outline-info" data-bs-toggle="modal" data-bs-target="#myModal">Send</button> -->
+          <button class="btn btn-outline-info">Send</button>
         </form>
       </div>
     </div>
@@ -143,7 +140,7 @@
               <p>You may also choose to specify additional pieces of information. If you enter a passphrase, your
                 recipient(s) will need to enter it to access the message. The access limit specifies the maximum number
                 of times your message can be retrieved and defaults to five times. The time expiry is the duration of
-                time your message can be accessed and defaults to one hour.
+                time your message can be accessed and defaults to one day.
               </p>
             </div>
           </div>
