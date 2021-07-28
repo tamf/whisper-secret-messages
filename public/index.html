@@ -60,18 +60,18 @@
 
           <label>
             <input class="form-control" placeholder="Passphrase" type="passphrase" id="passphrase" name="passphrase" />
-            <i id="tooltip" title="A passphrase will be randomly generated if this input is not provided" class="fa fa-question-circle" aria-hidden="true"></i>
+            <i id="tooltip" title="Optional. If a passphrase is supplied, the recipient must enter the same passphrase to access your message" class="fa fa-question-circle" aria-hidden="true"></i>
           </label>
 
           <label>
             <input class="form-control" placeholder="Access Limit" min="0" type="number" id="limit" name="limit" />
-            <i id="tooltip" title="The access limit will be set to the default value of five times if this input is not provided" class="fa fa-question-circle" aria-hidden="true"></i>
+            <i id="tooltip" title="Optional. No access limit by default." class="fa fa-question-circle" aria-hidden="true"></i>
           </label>
 
           <label>
             <input class="form-control" placeholder="Time Expiry" id="expiresIn" name="expiresIn" min="0"
               type="number" />
-            <i id="tooltip" title="The time expiry will be set to the default value of one hour if this input is not provided" class="fa fa-question-circle" aria-hidden="true"></i>
+            <i id="tooltip" title="Optional. Defaults to one day." class="fa fa-question-circle" aria-hidden="true"></i>
           </label>
 
           <select class="form-select" size="3" style="width:auto" aria-label="size 3 select example" name="expiryUnit">
@@ -130,7 +130,7 @@
           <div id="question-one" class="accordion-collapse collapse" data-bs-parent="#questions">
             <div class="accordion-body">
               <p>Enter the message you want to share into the text box and hit send. You'll get a link to share your secret with others.</p>
-              <p>You may also choose to specify additional pieces of information. If you enter a passphrase, your recipient(s) will need to enter it to access the message. The access limit specifies the maximum number of times your message can be retrieved and defaults to five times. The time expiry is the duration of time your message can be accessed and defaults to one hour.
+              <p>You may also choose to specify additional pieces of information. If you enter a passphrase, your recipient(s) will need to enter it to access the message. The access limit specifies the maximum number of times your message can be retrieved. By default there is no access limit. The time expiry is the duration of time your message can be accessed and defaults to one day.
               </p>
             </div>
           </div>
