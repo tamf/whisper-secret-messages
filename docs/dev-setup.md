@@ -1,7 +1,7 @@
 ## Developer set up
 
 1. Install Node.js and Firebase CLI [link](https://firebase.google.com/docs/functions/get-started#set-up-node.js-and-the-firebase-cli)
-2. Clone this repo locally
+2. Fork this repo, and clone your fork locally
 3. In terminal, navigate into the repo's directory
 4. Initialize Firebase `firebase init` to initialize your own Firebase project.
   - When prompted, select created project from previous step
