@@ -9,8 +9,3 @@
   - You may choose to set up Hosting, Functions, Firestore, and Emulators
 5. Replace the contents of your local firebase.json with that from the repo.
 6. Updates to UI in `public` or serverless functions in `functions` can be tested locally through the emulator `firebase emulators:start`
-
-#### Running UI:
-1. Navigate to `util` and install dependencies `npm install`
-2. Run UI proxy `npm run ui-proxy`
-3. Open html webpage in `public`
