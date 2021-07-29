@@ -38,13 +38,16 @@ If a custom passphrase is provided, it will be used for encryption and the recip
 
 Once the data is encrypted in the client, the encrypted data is sent alongside the IV and salt to an endpoint managed by Google Cloud Functions. The data is then stored as a new document in Google Firestore document store. An ID is returned to the client for the purpose of retrieving the document.
 
-When the receiving client sends the ID to the endpoint, the document corresponding to the ID will be retrieved; and the encrypted data, IV, and salt are sent to the client. 
+When the receiving client sends the ID to the endpoint, the document corresponding to the ID will be retrieved; and the encrypted data, IV, and salt are sent to the client.
+
+Documents are regularly deleted from the Firestore database as they expire.
 
 #### Technologies used:
 - [Web Crypto API / SubtleCrypto](https://developer.mozilla.org/en-US/docs/Web/API/Web_Crypto_API)
 - [Google Firebase](https://firebase.google.com/)
 - [Google Firestore](https://firebase.google.com/docs/firestore): Serverless NoSQL document store
 - [Google Cloud Functions](https://cloud.google.com/functions): Serverless backend functionality
+- [Google Cloud Scheduler](https://cloud.google.com/scheduler): Cron job service
 - Bootstrap 5
 - JavaScript
 - Node.js
