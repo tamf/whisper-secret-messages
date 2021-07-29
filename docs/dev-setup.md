@@ -7,5 +7,5 @@
   - When prompted, select created project from previous step
   - When prompted, choose not to overwrite any existing files. If overwritten, simply replace them from this repo
   - You may choose to set up Hosting, Functions, Firestore, and Emulators
-5. Replace the contents of your local firebase.json with that from the repo.
+5. Replace the contents of your local `firebase.json` with that from the repo.
 6. Updates to UI in `public` or serverless functions in `functions` can be tested locally through the emulator `firebase emulators:start`
